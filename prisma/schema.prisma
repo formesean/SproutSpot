@@ -9,13 +9,13 @@ datasource db {
 }
 
 enum GrowthStage {
-  SEEDLING
-  VEGETATIVE
-  BUDDING
-  FLOWERING
-  FRUITING
-  MATURE
-  HARVESTED
+  Seedling
+  Vegetative
+  Budding
+  Flowering
+  Fruiting
+  Mature
+  Harvested
 }
 
 model Farm {
