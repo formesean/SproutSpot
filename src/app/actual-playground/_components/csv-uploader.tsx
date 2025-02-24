@@ -1,8 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import Papa from 'papaparse';
+import Papa from "papaparse";
 import { Button } from "~/components/ui/button";
+import {
+  Sprout
+} from "lucide-react"
 
 interface CropData {
   croptype: string;
@@ -13,12 +16,7 @@ interface CropData {
 
 export default function CsvUploader() {
   const [error, setError] = useState<string | null>(null);
-
-  // State to store parsed CSV data
-  const [cropTypes, setCropTypes] = useState<string[]>([]);
-  const [cropCounts, setCropCounts] = useState<number[]>([]);
-  const [waterLevels, setWaterLevels] = useState<number[]>([]);
-  const [moistureLevels, setMoistureLevels] = useState<number[]>([]);
+  const [cropData, setCropData] = useState<CropData[]>([]);
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -33,7 +31,6 @@ export default function CsvUploader() {
       skipEmptyLines: true,
       complete: (results) => {
         if (results.data && results.data.length > 0) {
-          // Typecast and store data in separate arrays
           const parsedData: CropData[] = (results.data as any[]).map((row) => ({
             croptype: row["croptype"],
             cropcount: parseInt(row["cropcount"]),
@@ -43,11 +40,9 @@ export default function CsvUploader() {
 
           console.log("Raw Row Data:", results.data);
           console.log("Parsed Data:", parsedData);
-          
-          setCropTypes(parsedData.map((crop) => crop["croptype"]));
-          setCropCounts(parsedData.map((crop) => crop["cropcount"]));
-          setWaterLevels(parsedData.map((crop) => crop["waterlvl"]));
-          setMoistureLevels(parsedData.map((crop) => crop["moisturelvl"]));
+          console.log("Test:", cropData);
+
+          setCropData(parsedData);
         }
       },
       error: (error) => {
@@ -57,7 +52,7 @@ export default function CsvUploader() {
   };
 
   return (
-    <div className="flex flex-col items-center gap-4 p-4">
+    <div className="">
       <input
         type="file"
         accept=".csv"
@@ -68,10 +63,11 @@ export default function CsvUploader() {
 
       <Button
         variant="outline"
-        className="p-2 border-2"
+        className="border-2 w-full bg-[#16a34a] text-white"
         onClick={() => document.getElementById("file-upload")?.click()}
       >
-        📂 Digitalize Farm
+        <Sprout className="mr-2 h-4 w-4" />
+         Digitalize Farm
       </Button>
 
       {error && <p className="text-red-500">{error}</p>}
