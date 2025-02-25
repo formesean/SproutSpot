@@ -42,7 +42,7 @@ export default function Footer() {
             <ul className="space-y-2">
               <li>
                 <a
-                  href="https://linkedin.com"
+                  href="https://www.linkedin.com/in/seanaguilar04"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:underline"
@@ -52,17 +52,7 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="https://facebook.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:underline"
-                >
-                  Facebook
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://instagram.com"
+                  href="https://www.instagram.com/seanaguuuu"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:underline"
@@ -71,7 +61,10 @@ export default function Footer() {
                 </a>
               </li>
               <li>
-                <a href="mailto:example@gmail.com" className="hover:underline">
+                <a
+                  href="mailto:seanaguilar698@gmail.com"
+                  className="hover:underline"
+                >
                   Gmail
                 </a>
               </li>
