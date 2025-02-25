@@ -2,10 +2,9 @@
 
 import { useState } from "react";
 import Papa from "papaparse";
+import type { ParseResult } from "papaparse";
 import { Button } from "~/components/ui/button";
-import {
-  Sprout
-} from "lucide-react"
+import { Sprout } from "lucide-react";
 
 interface CropData {
   croptype: string;
@@ -18,6 +17,8 @@ export default function CsvUploader() {
   const [error, setError] = useState<string | null>(null);
   const [cropData, setCropData] = useState<CropData[]>([]);
 
+  console.log(cropData);
+
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) {
@@ -26,33 +27,34 @@ export default function CsvUploader() {
     }
 
     setError(null);
-    Papa.parse(file, {
+    Papa.parse<CropData>(file, {
       header: true,
       skipEmptyLines: true,
-      complete: (results) => {
-        if (results.data && results.data.length > 0) {
-          const parsedData: CropData[] = (results.data as any[]).map((row) => ({
-            croptype: row["croptype"],
-            cropcount: parseInt(row["cropcount"]),
-            waterlvl: parseInt(row["waterlvl"]),
-            moisturelvl: parseInt(row["moisturelvl"]),
-          }));
-
-          console.log("Raw Row Data:", results.data);
-          console.log("Parsed Data:", parsedData);
-          console.log("Test:", cropData);
-
-          setCropData(parsedData);
+      dynamicTyping: true,
+      complete: (results: ParseResult<CropData>) => {
+        if (results.errors.length) {
+          setError("Error parsing CSV file.");
+          console.error("CSV Parsing Errors:", results.errors);
+          return;
         }
-      },
-      error: (error) => {
-        setError(error.message);
+
+        const parsedData: CropData[] = results.data.map((row) => ({
+          croptype: row.croptype || "",
+          cropcount: Number(row.cropcount) || 0,
+          waterlvl: Number(row.waterlvl) || 0,
+          moisturelvl: Number(row.moisturelvl) || 0,
+        }));
+
+        console.log("Raw Row Data:", results.data);
+        console.log("Parsed Data:", parsedData);
+
+        setCropData(parsedData);
       },
     });
   };
 
   return (
-    <div className="">
+    <div>
       <input
         type="file"
         accept=".csv"
@@ -63,11 +65,11 @@ export default function CsvUploader() {
 
       <Button
         variant="outline"
-        className="border-2 w-full bg-[#15803d] hover:bg-[#15803d]/80 hover:text-white text-white"
+        className="w-full border-2 bg-[#15803d] text-white hover:bg-[#15803d]/80 hover:text-white"
         onClick={() => document.getElementById("file-upload")?.click()}
       >
         <Sprout className="mr-2 h-4 w-4" />
-         Digitalize Farm
+        Digitalize Farm
       </Button>
 
       {error && <p className="text-red-500">{error}</p>}
