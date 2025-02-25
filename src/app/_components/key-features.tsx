@@ -59,7 +59,9 @@ export default function KeyFeatures() {
           return (
             <div
               key={index}
-              ref={(el: any) => (cardRefs.current[index] = el)}
+              ref={(el) => {
+                cardRefs.current[index] = el;
+              }}
               className={`transform rounded-lg p-4 transition-all duration-300 hover:scale-105 ${
                 isActive
                   ? "border-2 border-green-500 shadow-lg"
