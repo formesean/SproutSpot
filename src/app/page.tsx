@@ -1,12 +1,8 @@
 import { ArrowRight, Leaf } from "lucide-react";
 import { Button } from "~/components/ui/button";
-import KeyFeaturesSection from "./_components/KeyFeaturesSection";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "~/components/ui/accordion";
+import KeyFeatures from "./_components/key-features";
+import FAQ from "./_components/faq";
+import Footer from "./_components/footer";
 
 export default function Home() {
   return (
@@ -59,79 +55,15 @@ export default function Home() {
 
         {/* KEY FEATURES SECTION*/}
         <section id="features">
-          <KeyFeaturesSection />
+          <KeyFeatures />
         </section>
 
         {/* FAQ SECTION */}
-        <section id="about" className="mt-24 text-center">
-          <div>
-            <h2 className="mb-4 text-3xl font-bold text-green-800">
-              Frequently Asked Questions
-            </h2>
-          </div>
-          <div className="text-justify">
-            <Accordion type="single" collapsible className="w-full">
-              <AccordionItem value="question-1">
-                <AccordionTrigger>
-                  <h3 className="text-xl text-green-700">
-                    How does SproutSpot use AI to improve farming?
-                  </h3>
-                </AccordionTrigger>
-                <AccordionContent>
-                  <p className="mb-4 text-green-700">
-                    SproutSpot utilizes advanced machine learning algorithms to
-                    analyze various factors such as soil conditions, weather
-                    patterns, and historical crop data. This AI-driven approach
-                    provides accurate predictions and personalized
-                    recommendations for optimizing crop yield and resource
-                    management.
-                  </p>
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
-
-            <Accordion type="single" collapsible className="w-full">
-              <AccordionItem value="question-2">
-                <AccordionTrigger>
-                  <h3 className="text-xl text-green-700">
-                    What is a digital twin farm and how does it work?
-                  </h3>
-                </AccordionTrigger>
-                <AccordionContent>
-                  <p className="mb-4 text-green-700">
-                    A digital twin farm is a virtual representation of your
-                    physical farm. It simulates real-world conditions and allows
-                    you to experiment with different variables without risk.
-                    This helps in making informed decisions about crop
-                    management, resource allocation, and long-term planning.
-                  </p>
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
-
-            <Accordion type="single" collapsible className="w-full">
-              <AccordionItem value="question-3">
-                <AccordionTrigger>
-                  <h3 className="text-xl text-green-700">
-                    Can SproutSpot integrate with my existing farm management
-                    systems?
-                  </h3>
-                </AccordionTrigger>
-                <AccordionContent>
-                  <p className="mb-4 text-green-700">
-                    Yes, SproutSpot is designed to be compatible with many
-                    popular farm management systems. It can import data from
-                    various sources, including IoT devices, weather stations,
-                    and soil sensors, to provide a comprehensive analysis of
-                    your farm's performance.
-                  </p>
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
-          </div>
+        <section id="about">
+          <FAQ />
         </section>
 
-        {/* SIGN UP */}
+        {/* SIGN IN */}
         <section className="mt-24 text-center">
           <h2 className="mb-4 text-3xl font-bold text-green-800">
             Ready to Transform Your Farm?
@@ -147,67 +79,7 @@ export default function Home() {
         </section>
       </main>
 
-      <footer className="bg-[#166534] py-12 text-[#ffffff]">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-            <div>
-              <h3 className="mb-4 text-xl font-semibold">SproutSpot</h3>
-              <p>
-                Empowering farmers with AI-driven solutions for sustainable
-                agriculture.
-              </p>
-            </div>
-            <div>
-              <h3 className="mb-4 text-xl font-semibold">Quick Links</h3>
-              <ul className="space-y-2">
-                <li>
-                  <a href="#" className="hover:underline">
-                    Home
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:underline">
-                    Features
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:underline">
-                    About Us
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="mb-4 text-xl font-semibold">Connect</h3>
-              <ul className="space-y-2">
-                <li>
-                  <a href="#" className="hover:underline">
-                    Twitter
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:underline">
-                    LinkedIn
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:underline">
-                    Facebook
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:underline">
-                    Instagram
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div className="mt-8 border-t border-[#15803d] pt-8 text-center">
-            <p>&copy; 2025 SproutSpot. All rights reserved.</p>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }
