@@ -11,9 +11,9 @@ export default function FAQ() {
 
   const faqs = [
     {
-      question: "What is FarmAI?",
+      question: "What is SproutSpot?",
       answer:
-        "FarmAI is an AI-powered platform designed to help farmers optimize crop growth, predict yields, and improve overall efficiency using advanced machine learning models.",
+        "SproutSpot is an AI-powered platform designed to help farmers optimize crop growth, predict yields, and improve overall efficiency using advanced machine learning models.",
     },
     {
       question: "How does AI help in farming?",
@@ -21,9 +21,9 @@ export default function FAQ() {
         "AI analyzes real-time data from sensors, weather patterns, and soil quality to provide smart recommendations, improve resource allocation, and predict potential issues before they arise.",
     },
     {
-      question: "Is FarmAI suitable for small farms?",
+      question: "Is SproutSpot suitable for small farms?",
       answer:
-        "Absolutely! FarmAI is designed to support both small and large-scale farms, providing tailored insights based on farm-specific data.",
+        "Absolutely! SproutSpot is designed to support both small and large-scale farms, providing tailored insights based on farm-specific data.",
     },
   ];
 
