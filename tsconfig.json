@@ -9,18 +9,14 @@
     "moduleDetection": "force",
     "isolatedModules": true,
     "forceConsistentCasingInFileNames": true,
-    
+
     /* Strictness */
     "strict": true,
     "noUncheckedIndexedAccess": true,
     "checkJs": true,
-    
+
     /* Bundled projects */
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "ES2022"
-    ],
+    "lib": ["dom", "dom.iterable", "ES2022"],
     "noEmit": true,
     "module": "ESNext",
     "moduleResolution": "Bundler",
@@ -31,13 +27,11 @@
       }
     ],
     "incremental": true,
-   
+
     /* Path Aliases */
     "baseUrl": ".",
     "paths": {
-      "~/*": [
-        "./src/*"
-      ]
+      "~/*": ["./src/*"]
     }
   },
   "include": [
@@ -49,9 +43,8 @@
     "**/*.js",
     ".next/types/**/*.ts",
     "src/app/page.tsx",
-    "src/app/layout.jsx"
-, "src/app/_components/post.tsx"  ],
-  "exclude": [
-    "node_modules"
-  ]
+    "src/app/layout.jsx",
+    "src/components/ui/post.tsx"
+  ],
+  "exclude": ["node_modules"]
 }
