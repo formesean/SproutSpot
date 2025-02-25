@@ -63,7 +63,7 @@ export default function CsvUploader() {
 
       <Button
         variant="outline"
-        className="border-2 w-full bg-[#16a34a] text-white"
+        className="border-2 w-full bg-[#15803d] hover:bg-[#15803d]/80 hover:text-white text-white"
         onClick={() => document.getElementById("file-upload")?.click()}
       >
         <Sprout className="mr-2 h-4 w-4" />

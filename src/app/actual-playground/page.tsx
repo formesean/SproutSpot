@@ -25,6 +25,12 @@ import {
   PopoverTrigger,
 } from "~/components/ui/popover";
 import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "~/components/ui/dropdown-menu";
+import {
   Sprout,
   Cloud,
   Sun,
@@ -46,7 +52,20 @@ export default async function ActualPlayground() {
   }
 
   return (
-    <div className="min-h-screen min-w-screen bg-[#f0fdf4] flex justify-center items-center">
+    <div className="min-w-screen flex min-h-screen items-center justify-center bg-[#f0fdf4]">
+      <div className="absolute left-9 top-9">
+        <DropdownMenu>
+          <DropdownMenuTrigger>
+            <Button className="bg-[#15803d]">☰ Menu</Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="start" className="border-[#15803d]">
+            <DropdownMenuItem>🏠 Home</DropdownMenuItem>
+            <DropdownMenuItem className="text-red-500">
+              ❌ Quit
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
       <div className="flex flex-col items-center">
         <div className="mb-12 text-center">
           <h2 className="mb-4 text-3xl font-bold text-[#166534]">
@@ -62,7 +81,7 @@ export default async function ActualPlayground() {
           <div className="m-5">
             <Card className="border-[#15803d]">
               <CardHeader>
-                <CardTitle className="text-[#166534]">
+                <CardTitle className="font-semibold text-[#166534]">
                   Actual Playground
                 </CardTitle>
                 <CardDescription className="text-[#15803d]">
@@ -70,54 +89,70 @@ export default async function ActualPlayground() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <Card className="bg-green-700">
+                <Card className="bg-[url('/grass.png')] bg-contain">
                   <div className="m-1 grid grid-cols-4 grid-rows-3">
                     <TooltipProvider>
                       <Tooltip>
                         <TooltipTrigger>
                           <Popover>
                             <PopoverTrigger>
-                              <Button className="m-1 bg-yellow-900 hover:bg-yellow-900/85 sm:h-16 sm:w-16 md:h-[102px] md:w-[102px]">
+                              <Button className="m-1 border-[1px] border-black bg-[url('/soil.png')] bg-contain sm:h-16 sm:w-16 md:h-[102px] md:w-[102px]">
                                 🌽
                               </Button>
                             </PopoverTrigger>
-                            <PopoverContent className="w-80">
+                            <PopoverContent className="w-80 border-[#15803d]">
                               <div className="grid gap-4">
                                 <div className="space-y-2">
-                                  <h4 className="font-medium leading-none">
+                                  <h4 className="font-semibold leading-none text-[#166534]">
                                     Crops Details
                                   </h4>
-                                  <p className="text-sm text-muted-foreground">
+                                  <p className="text-sm text-[#15803d]">
                                     See how your crops are doing.
                                   </p>
-                                  <hr />
+                                  <hr className="border-[#15803d]" />
                                 </div>
                                 <div className="grid gap-2">
                                   <div className="m-1 grid grid-cols-3 items-center gap-4">
-                                    <Label htmlFor="width">Crop Type:</Label>
-                                    <p className="text-sm text-muted-foreground">
+                                    <Label
+                                      htmlFor="width"
+                                      className="font-medium text-[#166534]"
+                                    >
+                                      Crop Type:
+                                    </Label>
+                                    <p className="text-sm font-light text-[#15803d]">
                                       "empty"
                                     </p>
                                   </div>
                                   <div className="m-1 grid grid-cols-3 items-center gap-4">
-                                    <Label htmlFor="maxWidth">
+                                    <Label
+                                      htmlFor="maxWidth"
+                                      className="font-medium text-[#166534]"
+                                    >
                                       Crop Count:
                                     </Label>
-                                    <p className="text-sm text-muted-foreground">
+                                    <p className="text-sm font-light text-[#15803d]">
                                       "empty"
                                     </p>
                                   </div>
                                   <div className="m-1 grid grid-cols-3 items-center gap-4">
-                                    <Label htmlFor="height">Water Level:</Label>
-                                    <p className="text-sm text-muted-foreground">
+                                    <Label
+                                      htmlFor="height"
+                                      className="font-medium text-[#166534]"
+                                    >
+                                      Water Level:
+                                    </Label>
+                                    <p className="text-sm font-light text-[#15803d]">
                                       "empty"
                                     </p>
                                   </div>
                                   <div className="m-1 grid grid-cols-3 items-center gap-4">
-                                    <Label htmlFor="maxHeight">
+                                    <Label
+                                      htmlFor="maxHeight"
+                                      className="font-medium text-[#166534]"
+                                    >
                                       Moisture Level:
                                     </Label>
-                                    <p className="text-sm text-muted-foreground">
+                                    <p className="text-sm font-light text-[#15803d]">
                                       "empty"
                                     </p>
                                   </div>
@@ -126,7 +161,7 @@ export default async function ActualPlayground() {
                             </PopoverContent>
                           </Popover>
                         </TooltipTrigger>
-                        <TooltipContent className="bg-slate-300">
+                        <TooltipContent className="bg-[#77b78a]">
                           <p>🌱 Growth Stage: Seedling</p>
                         </TooltipContent>
                       </Tooltip>
@@ -139,7 +174,7 @@ export default async function ActualPlayground() {
           <div className="m-5">
             <Card className="border-[#15803d]">
               <CardHeader>
-                <CardTitle className="text-[#166534]">
+                <CardTitle className="font-semibold text-[#166534]">
                   Experimental Playground
                 </CardTitle>
                 <CardDescription className="text-[#15803d]">
@@ -147,54 +182,70 @@ export default async function ActualPlayground() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <Card className="bg-green-700">
+                <Card className="bg-[url('/grass.png')] bg-contain">
                   <div className="m-1 grid grid-cols-4 grid-rows-3">
                     <TooltipProvider>
                       <Tooltip>
                         <TooltipTrigger>
                           <Popover>
                             <PopoverTrigger>
-                              <Button className="m-1 bg-yellow-900 hover:bg-yellow-900/85 sm:h-16 sm:w-16 md:h-[102px] md:w-[102px]">
+                              <Button className="m-1 border-[1px] border-black bg-[url('/soil.png')] bg-contain sm:h-16 sm:w-16 md:h-[102px] md:w-[102px]">
                                 🌽
                               </Button>
                             </PopoverTrigger>
-                            <PopoverContent className="w-80">
+                            <PopoverContent className="w-80 border-[#15803d]">
                               <div className="grid gap-4">
                                 <div className="space-y-2">
-                                  <h4 className="font-medium leading-none">
+                                  <h4 className="font-semibold leading-none text-[#166534]">
                                     Crops Details
                                   </h4>
-                                  <p className="text-sm text-muted-foreground">
+                                  <p className="text-sm text-[#15803d]">
                                     See how your crops are doing.
                                   </p>
-                                  <hr />
+                                  <hr className="border-[#15803d]" />
                                 </div>
                                 <div className="grid gap-2">
                                   <div className="m-1 grid grid-cols-3 items-center gap-4">
-                                    <Label htmlFor="width">Crop Type:</Label>
-                                    <p className="text-sm text-muted-foreground">
+                                    <Label
+                                      htmlFor="width"
+                                      className="font-medium text-[#166534]"
+                                    >
+                                      Crop Type:
+                                    </Label>
+                                    <p className="text-sm font-light text-[#15803d]">
                                       "empty"
                                     </p>
                                   </div>
                                   <div className="m-1 grid grid-cols-3 items-center gap-4">
-                                    <Label htmlFor="maxWidth">
+                                    <Label
+                                      htmlFor="maxWidth"
+                                      className="font-medium text-[#166534]"
+                                    >
                                       Crop Count:
                                     </Label>
-                                    <p className="text-sm text-muted-foreground">
+                                    <p className="text-sm font-light text-[#15803d]">
                                       "empty"
                                     </p>
                                   </div>
                                   <div className="m-1 grid grid-cols-3 items-center gap-4">
-                                    <Label htmlFor="height">Water Level:</Label>
-                                    <p className="text-sm text-muted-foreground">
+                                    <Label
+                                      htmlFor="height"
+                                      className="font-medium text-[#166534]"
+                                    >
+                                      Water Level:
+                                    </Label>
+                                    <p className="text-sm font-light text-[#15803d]">
                                       "empty"
                                     </p>
                                   </div>
                                   <div className="m-1 grid grid-cols-3 items-center gap-4">
-                                    <Label htmlFor="maxHeight">
+                                    <Label
+                                      htmlFor="maxHeight"
+                                      className="font-medium text-[#166534]"
+                                    >
                                       Moisture Level:
                                     </Label>
-                                    <p className="text-sm text-muted-foreground">
+                                    <p className="text-sm font-light text-[#15803d]">
                                       "empty"
                                     </p>
                                   </div>
@@ -203,7 +254,7 @@ export default async function ActualPlayground() {
                             </PopoverContent>
                           </Popover>
                         </TooltipTrigger>
-                        <TooltipContent className="bg-slate-300">
+                        <TooltipContent className="bg-[#77b78a]">
                           <p>🌱 Growth Stage: Seedling</p>
                         </TooltipContent>
                       </Tooltip>
@@ -214,7 +265,7 @@ export default async function ActualPlayground() {
             </Card>
           </div>
         </div>
-          <CsvUploader />
+        <CsvUploader />
       </div>
     </div>
   );
