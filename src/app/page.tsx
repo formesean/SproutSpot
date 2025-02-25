@@ -3,8 +3,12 @@ import { Button } from "~/components/ui/button";
 import KeyFeatures from "./_components/key-features";
 import FAQ from "./_components/faq";
 import Footer from "./_components/footer";
+import { auth } from "~/server/auth";
+import Link from "next/link";
 
-export default function Home() {
+export default async function Home() {
+  const session = await auth();
+
   return (
     <div className="min-h-screen scroll-smooth bg-gradient-to-b from-green-50 to-green-100">
       <header className="container mx-auto px-4 py-8">
@@ -32,12 +36,20 @@ export default function Home() {
                 About
               </Button>
             </a>
-            <Button
-              variant="outline"
-              className="border-green-600 text-green-600 hover:bg-green-600 hover:text-white"
+            <Link
+              href={
+                session
+                  ? "/api/auth/signout"
+                  : `/api/auth/signin?callbackUrl=/actual-playground`
+              }
             >
-              Sign In
-            </Button>
+              <Button
+                variant="outline"
+                className="border-green-600 text-green-600 hover:bg-green-600 hover:text-white"
+              >
+                {session ? "Sign out" : "Sign in"}
+              </Button>
+            </Link>
           </div>
         </nav>
       </header>
@@ -72,10 +84,18 @@ export default function Home() {
             Join SproutSpot today and start optimizing your agricultural
             practices with AI.
           </p>
-          <Button className="bg-green-600 text-white hover:bg-green-700">
-            Sign In
-            <ArrowRight className="ml-2 h-4 w-4" />
-          </Button>
+          <Link
+            href={
+              session
+                ? "/actual-playground"
+                : `/api/auth/signin?callbackUrl=/actual-playground`
+            }
+          >
+            <Button className="bg-green-600 text-white hover:bg-green-700">
+              {session ? "Continue Journey" : "Sign in"}
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+          </Link>
         </section>
       </main>
 

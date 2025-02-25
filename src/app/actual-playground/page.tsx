@@ -25,8 +25,12 @@ import {
 } from "~/components/ui/dropdown-menu";
 import { Label } from "~/components/ui/label";
 import CsvUploader from "./_components/csv-uploader";
+import Link from "next/link";
+import { auth } from "~/server/auth";
 
 export default async function ActualPlayground() {
+  const session = await auth();
+
   return (
     <div className="min-w-screen flex min-h-screen items-center justify-center bg-[#f0fdf4]">
       <div className="absolute left-9 top-9">
@@ -35,9 +39,19 @@ export default async function ActualPlayground() {
             <Button className="bg-[#15803d]">☰ Menu</Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="start" className="border-[#15803d]">
-            <DropdownMenuItem>🏠 Home</DropdownMenuItem>
+            <DropdownMenuItem>
+              <Link href={"/"}>🏠 Home</Link>
+            </DropdownMenuItem>
             <DropdownMenuItem className="text-red-500">
-              ❌ Quit
+              <Link
+                href={
+                  session
+                    ? "/api/auth/signout?callbackUrl=/"
+                    : `/api/auth/signin?callbackUrl=/actual-playground`
+                }
+              >
+                {session && "❌ Quit"}
+              </Link>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
