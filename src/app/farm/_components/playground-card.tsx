@@ -1,40 +1,130 @@
 import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "~/components/ui/popover";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+  TooltipProvider,
+} from "~/components/ui/tooltip";
+import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
 } from "~/components/ui/card";
+import type { GridItem } from "~/types/grid-item.types";
 import { Button } from "~/components/ui/button";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "~/components/ui/tooltip";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "~/components/ui/popover";
-import { Label } from "~/components/ui/label";
+import CropInputs from "./crop-input";
 
-type GridItem = {
-  id: string;
-  cropType: string;
-  cropCount: number;
-  waterLevel: number;
-  moistureLevel: number;
-  growthStage?: string;
+interface CropDetailsProps {
+  grid: GridItem;
+}
+
+const CropDetails = ({ grid }: CropDetailsProps) => (
+  <div>
+    <h1 className="text-base font-semibold text-[#166534]">Crop Details</h1>
+    <p className="text-sm text-[#15803d]">See how your crops are doing.</p>
+    <hr className="my-2 border-[#15803d]" />
+    <div className="space-y-1">
+      {[
+        { label: "Crop Type", value: grid.cropType },
+        { label: "Crop Count", value: grid.cropCount },
+        { label: "Growth Stage", value: grid.growthStage ?? "Seedling" },
+        { label: "Water Level", value: grid.waterLevel },
+        { label: "Moisture Level", value: grid.moistureLevel },
+      ].map(({ label, value }) => (
+        <div key={label} className="flex justify-between">
+          <span className="font-medium text-[#166534]">{label}:</span>
+          <span className="text-sm text-[#15803d]">{value}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+);
+
+interface GridCellProps {
+  grid: GridItem;
+  isExperimental: boolean;
+  getEmojiSize: (growthStage?: string) => string;
+}
+
+const GridCell = ({ grid, isExperimental, getEmojiSize }: GridCellProps) => {
+  const buttonContent = (
+    <Button className="m-1 border-[1px] border-black bg-[url('/soil.png')] bg-contain sm:h-16 sm:w-16 md:h-[102px] md:w-[102px]">
+      <span className={getEmojiSize(grid.growthStage)}>
+        {grid.cropType === "Corn" ? "🌽" : "🌱"}
+      </span>
+    </Button>
+  );
+
+  if (isExperimental) {
+    return (
+      <Tooltip delayDuration={200}>
+        <TooltipTrigger asChild>
+          <div>
+            <Popover>
+              <PopoverTrigger asChild>{buttonContent}</PopoverTrigger>
+              <PopoverContent
+                side="bottom"
+                align="center"
+                className="max-h-[80vh] w-64 overflow-y-auto rounded-md bg-white px-5 py-3 shadow-md"
+              >
+                <CropInputs />
+              </PopoverContent>
+            </Popover>
+          </div>
+        </TooltipTrigger>
+        <TooltipContent className="rounded-md bg-white px-5 py-3 shadow-md">
+          <CropDetails grid={grid} />
+        </TooltipContent>
+      </Tooltip>
+    );
+  }
+
+  return (
+    <Tooltip delayDuration={200}>
+      <TooltipTrigger asChild>{buttonContent}</TooltipTrigger>
+      <TooltipContent className="rounded-md bg-white px-5 py-3 shadow-md">
+        <CropDetails grid={grid} />
+      </TooltipContent>
+    </Tooltip>
+  );
 };
+
+interface PlaygroundCardProps {
+  title: "Actual Playground" | "Experimental Playground";
+  gridData: GridItem[];
+}
 
 export default function PlaygroundCard({
   title,
   gridData,
-}: {
-  title: "Actual Playground" | "Experimental Playground";
-  gridData: GridItem[];
-}) {
+}: PlaygroundCardProps) {
+  const getEmojiSize = (growthStage: string | undefined) => {
+    switch (growthStage) {
+      case "Seedling":
+        return "text-xs";
+      case "Vegetative":
+        return "text-sm";
+      case "Budding":
+        return "text-base";
+      case "Flowering":
+        return "text-lg";
+      case "Fruiting":
+        return "text-xl";
+      case "Mature":
+        return "text-2xl";
+      case "Harvested":
+        return "text-3xl";
+      default:
+        return "text-base";
+    }
+  };
+
   return (
     <div className="m-5">
       <Card className="border-[#15803d]">
@@ -50,70 +140,18 @@ export default function PlaygroundCard({
         </CardHeader>
         <CardContent>
           <Card className="bg-[url('/grass.png')] bg-contain">
-            <div className="m-1 grid grid-cols-4 grid-rows-3">
-              <TooltipProvider>
+            <TooltipProvider>
+              <div className="m-1 grid grid-cols-4 grid-rows-3">
                 {gridData.map((grid) => (
-                  <Tooltip key={grid.id}>
-                    <TooltipTrigger asChild>
-                      <div>
-                        <Popover>
-                          <PopoverTrigger asChild>
-                            <Button className="m-1 border-[1px] border-black bg-[url('/soil.png')] bg-contain sm:h-16 sm:w-16 md:h-[102px] md:w-[102px]">
-                              {grid.cropType === "Corn" ? "🌽" : "🌱"}
-                            </Button>
-                          </PopoverTrigger>
-                          <PopoverContent className="w-80 border-[#15803d]">
-                            <div className="grid gap-4">
-                              <div className="space-y-2">
-                                <h4 className="font-semibold leading-none text-[#166534]">
-                                  Crop Details
-                                </h4>
-                                <p className="text-sm text-[#15803d]">
-                                  See how your crops are doing.
-                                </p>
-                                <hr className="border-[#15803d]" />
-                              </div>
-                              <div className="grid gap-2">
-                                {[
-                                  { label: "Crop Type", value: grid.cropType },
-                                  {
-                                    label: "Crop Count",
-                                    value: grid.cropCount,
-                                  },
-                                  {
-                                    label: "Water Level",
-                                    value: grid.waterLevel,
-                                  },
-                                  {
-                                    label: "Moisture Level",
-                                    value: grid.moistureLevel,
-                                  },
-                                ].map(({ label, value }) => (
-                                  <div
-                                    key={label}
-                                    className="m-1 grid grid-cols-3 items-center gap-4"
-                                  >
-                                    <Label className="font-medium text-[#166534]">
-                                      {label}:
-                                    </Label>
-                                    <p className="text-sm font-light text-[#15803d]">
-                                      {value}
-                                    </p>
-                                  </div>
-                                ))}
-                              </div>
-                            </div>
-                          </PopoverContent>
-                        </Popover>
-                      </div>
-                    </TooltipTrigger>
-                    <TooltipContent className="bg-[#77b78a]">
-                      <p>🌱 Growth Stage: {grid.growthStage ?? "Seedling"}</p>
-                    </TooltipContent>
-                  </Tooltip>
+                  <GridCell
+                    key={grid.id}
+                    grid={grid}
+                    isExperimental={title === "Experimental Playground"}
+                    getEmojiSize={getEmojiSize}
+                  />
                 ))}
-              </TooltipProvider>
-            </div>
+              </div>
+            </TooltipProvider>
           </Card>
         </CardContent>
       </Card>
