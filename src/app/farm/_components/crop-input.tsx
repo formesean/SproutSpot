@@ -1,16 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "../../../components/ui/button";
+import { Button } from "~/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "../../../components/ui/dropdown-menu";
-import { Input } from "../../../components/ui/input";
-import { Label } from "../../../components/ui/label";
+} from "~/components/ui/dropdown-menu";
+import { Input } from "~/components/ui/input";
+import { Label } from "~/components/ui/label";
 
 export default function CropInputs() {
   const [water, setWater] = useState("");
@@ -33,7 +33,7 @@ export default function CropInputs() {
         </Label>
         <Input
           id="waterInput"
-          placeholder="Enter water (L)"
+          placeholder="Enter amount"
           value={water}
           onChange={(e) => setWater(e.target.value)}
           className="mt-1"
@@ -46,7 +46,7 @@ export default function CropInputs() {
         </Label>
         <Input
           id="fertilizerInput"
-          placeholder="Enter fertilizer amount"
+          placeholder="Enter amount"
           value={fertilizer}
           onChange={(e) => setFertilizer(e.target.value)}
           className="mt-1"
@@ -59,7 +59,7 @@ export default function CropInputs() {
         </Label>
         <Input
           id="pesticideInput"
-          placeholder="Enter pesticide amount"
+          placeholder="Enter amount"
           value={pesticide}
           onChange={(e) => setPesticide(e.target.value)}
           className="mt-1"
@@ -72,11 +72,11 @@ export default function CropInputs() {
         </Label>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline">
-              {weather ? weather : "Choose Weather"}
+            <Button variant="outline" className="w-full truncate">
+              {weather ?? "Choose Weather"}
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-56">
+          <DropdownMenuContent className="w-24">
             <DropdownMenuGroup>
               {["Sunny", "Rainy", "Windy", "Stormy", "Cloudy"].map((option) => (
                 <DropdownMenuItem
@@ -91,7 +91,7 @@ export default function CropInputs() {
         </DropdownMenu>
       </div>
 
-      <Button variant="outline" className="mt-3 w-full" onClick={handleSave}>
+      <Button className="w-full bg-[#15803d]" onClick={handleSave}>
         Save Changes
       </Button>
     </div>
