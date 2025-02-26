@@ -1,8 +1,8 @@
+import { headers } from "next/headers";
 import { auth } from "~/server/auth";
 import { db } from "~/server/db";
 import NavBar from "./_components/nav-bar";
 import PlaygroundCard from "./_components/playground-card";
-import { headers } from "next/headers";
 
 export default async function Farm() {
   const session = await auth();
