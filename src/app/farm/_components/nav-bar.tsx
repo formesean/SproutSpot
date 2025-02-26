@@ -10,7 +10,7 @@ import {
 } from "~/components/ui/dropdown-menu";
 import Link from "next/link";
 import CsvUploader from "./csv-uploader";
-import { Session } from "next-auth";
+import type { Session } from "next-auth";
 
 type Farm = {
   id: string;
@@ -28,7 +28,7 @@ export default function NavBar({
   const router = useRouter();
   const pathname = usePathname();
 
-  const selectedFarmId = searchParams.get("farmId") || farms[0]?.id;
+  const selectedFarmId = searchParams.get("farmId") ?? farms[0]?.id;
 
   const handleFarmSelect = (farmId: string) => {
     const params = new URLSearchParams(searchParams.toString());

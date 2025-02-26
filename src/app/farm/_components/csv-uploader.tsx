@@ -6,7 +6,7 @@ import Papa from "papaparse";
 import type { ParseResult } from "papaparse";
 import { Button } from "~/components/ui/button";
 import { Sprout } from "lucide-react";
-import { CropData } from "~/types/crop.types";
+import type { CropData } from "~/types/crop.types";
 import { api } from "~/trpc/react";
 
 export default function CsvUploader() {

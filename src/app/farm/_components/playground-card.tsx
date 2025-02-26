@@ -108,7 +108,7 @@ export default function PlaygroundCard({
                       </div>
                     </TooltipTrigger>
                     <TooltipContent className="bg-[#77b78a]">
-                      <p>🌱 Growth Stage: {grid.growthStage || "Seedling"}</p>
+                      <p>🌱 Growth Stage: {grid.growthStage ?? "Seedling"}</p>
                     </TooltipContent>
                   </Tooltip>
                 ))}

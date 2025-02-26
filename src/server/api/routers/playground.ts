@@ -46,7 +46,8 @@ export const playgroundRouter = createTRPCRouter({
       // Extract numbers from farm names
       const farmNumbers = existingFarms
         .map((farm) => {
-          const match = farm.name.match(/^Farm (\d+)$/);
+          if (!farm.name) return null;
+          const match = /^Farm (\d+)$/.exec(farm.name);
           return match?.[1] ? parseInt(match[1], 10) : null;
         })
         .filter((num): num is number => num !== null)
