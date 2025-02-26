@@ -40,7 +40,7 @@ export default async function Home() {
               href={
                 session
                   ? "/api/auth/signout"
-                  : `/api/auth/signin?callbackUrl=/actual-playground`
+                  : `/api/auth/signin?callbackUrl=/farm`
               }
             >
               <Button
@@ -84,13 +84,7 @@ export default async function Home() {
             Join SproutSpot today and start optimizing your agricultural
             practices with AI.
           </p>
-          <Link
-            href={
-              session
-                ? "/actual-playground"
-                : `/api/auth/signin?callbackUrl=/actual-playground`
-            }
-          >
+          <Link href={session ? "/farm" : `/api/auth/signin?callbackUrl=/farm`}>
             <Button className="bg-green-600 text-white hover:bg-green-700">
               {session ? "Continue Journey" : "Sign in"}
               <ArrowRight className="ml-2 h-4 w-4" />

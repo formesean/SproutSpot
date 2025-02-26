@@ -49,11 +49,11 @@ export default function CsvUploader() {
 
         const parsedData = results.data.map((row, index) => ({
           id: crypto.randomUUID(), // Generate unique ID
-          cropType: row.croptype || "",
-          cropCount: Number(row.cropcount) || 0,
-          waterLevel: Number(row.waterlvl) || 0,
-          moistureLevel: Number(row.moisturelvl) || 0,
-          growthStage: row.growthStage || "SEEDLING",
+          cropType: row.croptype ?? "",
+          cropCount: Number(row.cropcount) ?? 0,
+          waterLevel: Number(row.waterlvl) ?? 0,
+          moistureLevel: Number(row.moisturelvl) ?? 0,
+          growthStage: row.growthStage ?? "SEEDLING",
           row: Math.floor(index / 4),
           column: index % 4,
         }));
