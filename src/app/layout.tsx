@@ -5,6 +5,7 @@ import { type Metadata } from "next";
 
 import { TRPCReactProvider } from "~/trpc/react";
 import { Analytics } from "@vercel/analytics/next";
+import { Toaster } from "~/components/ui/sonner";
 
 export const metadata: Metadata = {
   title: "SproutSpot",
@@ -20,6 +21,7 @@ export default function RootLayout({
       <body>
         <TRPCReactProvider>
           {children}
+          <Toaster position="top-left" expand={true} />
           <Analytics />
         </TRPCReactProvider>
       </body>
