@@ -1,10 +1,11 @@
-import { ArrowRight, Leaf } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import KeyFeatures from "./_components/key-features";
 import FAQ from "./_components/faq";
 import Footer from "./_components/footer";
 import { auth } from "~/server/auth";
 import Link from "next/link";
+import Image from "next/image";
 
 export default async function Home() {
   const session = await auth();
@@ -14,7 +15,12 @@ export default async function Home() {
       <header className="container mx-auto px-4 py-8">
         <nav className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <Leaf className="h-8 w-8 text-green-600" />
+            <Image
+              src={"/icon.svg"}
+              height={32}
+              width={32}
+              alt="SproutSpot logo"
+            />
             <span className="text-2xl font-bold text-green-800">
               SproutSpot
             </span>
