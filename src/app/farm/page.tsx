@@ -3,6 +3,7 @@ import { auth } from "~/server/auth";
 import { db } from "~/server/db";
 import NavBar from "./_components/nav-bar";
 import PlaygroundCard from "./_components/playground-card";
+import PixelThermometer from "./_components/pixelated-thermometer";
 
 export default async function Farm() {
   const session = await auth();
@@ -44,8 +45,17 @@ export default async function Farm() {
         </div>
 
         <div className="flex items-center justify-center md:gap-x-[100px]">
-          <PlaygroundCard title="Actual Playground" gridData={gridData} />
-          <PlaygroundCard title="Experimental Playground" gridData={gridData} />
+          <div className="flex items-center justify-center">
+            <PlaygroundCard title="Actual Playground" gridData={gridData} />
+            <PixelThermometer gridData={gridData} />
+          </div>
+          <div className="flex items-center justify-center">
+            <PixelThermometer gridData={gridData} />
+            <PlaygroundCard
+              title="Experimental Playground"
+              gridData={gridData}
+            />
+          </div>
         </div>
       </div>
     </div>

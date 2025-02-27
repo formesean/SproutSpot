@@ -19,6 +19,7 @@ import {
 import type { GridItem } from "~/types/grid-item.types";
 import { Button } from "~/components/ui/button";
 import CropInputs from "./crop-input";
+import PixelHeatMap from "./pixelated-heat-map";
 
 interface CropDetailsProps {
   grid: GridItem;
@@ -134,15 +135,18 @@ export default function PlaygroundCard({
   return (
     <div className="m-5">
       <Card className="border-[#15803d]">
-        <CardHeader>
-          <CardTitle className="font-semibold text-[#166534]">
-            {title}
-          </CardTitle>
-          <CardDescription className="text-[#15803d]">
-            {title === "Actual Playground"
-              ? "Digital Twin of your farm"
-              : "Where you can test on your farm"}
-          </CardDescription>
+        <CardHeader className="flex flex-row justify-between">
+          <div>
+            <CardTitle className="font-semibold text-[#166534]">
+              {title}
+            </CardTitle>
+            <CardDescription className="text-[#15803d]">
+              {title === "Actual Playground"
+                ? "Digital Twin of your farm"
+                : "Where you can test on your farm"}
+            </CardDescription>
+          </div>
+          <PixelHeatMap gridData={gridData} />
         </CardHeader>
         <CardContent>
           <Card className="bg-[url('/grass.png')] bg-contain">
