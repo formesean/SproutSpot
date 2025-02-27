@@ -10,7 +10,7 @@ import { Toaster } from "~/components/ui/sonner";
 export const metadata: Metadata = {
   title: "SproutSpot",
   description: "Sprout Smarter, Grow Greener.",
-  icons: [{ rel: "icon", url: "/favicon.ico" }],
+  icons: [{ rel: "svg", url: "/icon.svg" }],
 };
 
 export default function RootLayout({

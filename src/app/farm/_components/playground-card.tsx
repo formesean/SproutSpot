@@ -85,7 +85,7 @@ const GridCell = ({ grid, isExperimental, getEmojiSize }: GridCellProps) => {
             </Popover>
           </div>
         </TooltipTrigger>
-        <TooltipContent className="rounded-md bg-white px-5 py-3 shadow-md">
+        <TooltipContent className="z-0 rounded-md bg-white px-5 py-3 shadow-md">
           <CropDetails grid={grid} />
         </TooltipContent>
       </Tooltip>
@@ -109,7 +109,7 @@ interface PlaygroundCardProps {
 
 export default function PlaygroundCard({
   title,
-  gridData,
+  gridData = [],
 }: PlaygroundCardProps) {
   const getEmojiSize = (growthStage: string | undefined) => {
     switch (growthStage) {
@@ -151,7 +151,7 @@ export default function PlaygroundCard({
         <CardContent>
           <Card className="bg-[url('/grass.png')] bg-contain">
             <TooltipProvider>
-              <div className="m-1 grid grid-cols-4 grid-rows-3">
+              <div className="z-0 m-1 grid grid-cols-4 grid-rows-3">
                 {gridData.map((grid) => (
                   <GridCell
                     key={grid.id}

@@ -15,12 +15,16 @@ import type { GridItem } from "~/types/grid-item.types";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
+import { api } from "~/trpc/react";
+import { useRouter } from "next/navigation";
 
 interface CropInputsProps {
   grid: GridItem;
 }
 
 export default function CropInputs({ grid }: CropInputsProps) {
+  const router = useRouter();
+
   const [water, setWater] = useState(0);
   const [fertilizer, setFertilizer] = useState(0);
   const [pesticide, setPesticide] = useState(0);
@@ -28,7 +32,10 @@ export default function CropInputs({ grid }: CropInputsProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [isSuggested, setIsSuggested] = useState(false);
 
-  const handleSave = async () => {
+  const { mutateAsync: updateCell } =
+    api.playground.updateExperimentalCell.useMutation();
+
+  const handleExperiment = async () => {
     setIsLoading(true);
     setIsSuggested(false);
 
@@ -65,7 +72,6 @@ export default function CropInputs({ grid }: CropInputsProps) {
                       Don't add any font stylings, like bold or italic, remove any symbols like dashes and underscores`;
 
       const result = (await model.generateContent(prompt)).response.text();
-      console.log(result);
 
       const predictionMatch = /Predictions:\n(.+)/.exec(result);
       const message = predictionMatch?.[1]?.trim() ?? "Prediction not found.";
@@ -84,11 +90,25 @@ export default function CropInputs({ grid }: CropInputsProps) {
         ? parseFloat(pesticideMatch[1])
         : pesticide;
 
-      // Apply suggestions to sliders
+      // Determine new crop data based on input
+      const newWaterLevel = water < 30 ? 1 : suggestedWater <= 70 ? 2 : 3;
+      const newMoistureLevel = Math.min(10, Math.floor(water / 10));
+
+      // Update local UI
       setWater(suggestedWater);
       setFertilizer(suggestedFertilizer);
       setPesticide(suggestedPesticide);
       setIsSuggested(true);
+
+      // 🔥 API Call to Update Database
+      await updateCell({
+        cellId: grid.id,
+        waterLevel: newWaterLevel,
+        moistureLevel: newMoistureLevel,
+        cropCount: grid.cropCount,
+      });
+
+      router.refresh();
 
       toast("Prediction", {
         description: message,
@@ -100,7 +120,11 @@ export default function CropInputs({ grid }: CropInputsProps) {
         duration: 15000,
       });
     } catch (error) {
-      console.error("Error generating content:", error);
+      console.error("Error:", error);
+      toast("Experiment Failed", {
+        description: "Something went wrong!",
+        duration: 3000,
+      });
     } finally {
       setIsLoading(false);
     }
@@ -195,13 +219,16 @@ export default function CropInputs({ grid }: CropInputsProps) {
       {/* Save Button */}
       <Button
         className="w-full bg-[#15803d] hover:bg-[#166534] disabled:opacity-50"
-        onClick={handleSave}
+        onClick={handleExperiment}
         disabled={isLoading}
       >
         {isLoading ? (
-          <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+          <>
+            <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+            <p>Experimenting...</p>
+          </>
         ) : (
-          "Save Changes"
+          "Experiment"
         )}
       </Button>
     </div>

@@ -135,7 +135,7 @@ export const playgroundRouter = createTRPCRouter({
   updateExperimentalCell: publicProcedure
     .input(
       z.object({
-        cellId: z.string(),
+        cellId: z.string(), // Use this in `where`
         cropCount: z.number().optional(),
         waterLevel: z.number().optional(),
         moistureLevel: z.number().optional(),
@@ -155,7 +155,12 @@ export const playgroundRouter = createTRPCRouter({
     .mutation(async ({ input }) => {
       return await db.experimentalGrid.update({
         where: { id: input.cellId },
-        data: { ...input },
+        data: {
+          cropCount: input.cropCount,
+          waterLevel: input.waterLevel,
+          moistureLevel: input.moistureLevel,
+          growthStage: input.growthStage,
+        },
       });
     }),
 });
