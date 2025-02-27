@@ -43,7 +43,7 @@ export default async function Farm() {
           </p>
         </div>
 
-        <div className="flex justify-center md:gap-x-[100px]">
+        <div className="flex items-center justify-center md:gap-x-[100px]">
           <PlaygroundCard title="Actual Playground" gridData={gridData} />
           <PlaygroundCard title="Experimental Playground" gridData={gridData} />
         </div>

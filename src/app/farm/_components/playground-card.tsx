@@ -56,7 +56,13 @@ const GridCell = ({ grid, isExperimental, getEmojiSize }: GridCellProps) => {
   const buttonContent = (
     <Button className="m-1 border-[1px] border-black bg-[url('/soil.png')] bg-contain sm:h-16 sm:w-16 md:h-[102px] md:w-[102px]">
       <span className={getEmojiSize(grid.growthStage)}>
-        {grid.cropType === "Corn" ? "🌽" : "🌱"}
+        {grid.cropType === "rice"
+          ? "🌾"
+          : grid.cropType === "corn"
+            ? "🌽"
+            : grid.cropType === "sugarcane"
+              ? "🎍"
+              : "🌱"}
       </span>
     </Button>
   );
@@ -71,9 +77,9 @@ const GridCell = ({ grid, isExperimental, getEmojiSize }: GridCellProps) => {
               <PopoverContent
                 side="bottom"
                 align="center"
-                className="max-h-[80vh] w-64 overflow-y-auto rounded-md bg-white px-5 py-3 shadow-md"
+                className="max-h-[80vh] w-[20rem] overflow-y-auto rounded-md bg-white px-5 py-3 shadow-md"
               >
-                <CropInputs />
+                <CropInputs grid={grid} />
               </PopoverContent>
             </Popover>
           </div>
@@ -88,7 +94,7 @@ const GridCell = ({ grid, isExperimental, getEmojiSize }: GridCellProps) => {
   return (
     <Tooltip delayDuration={200}>
       <TooltipTrigger asChild>{buttonContent}</TooltipTrigger>
-      <TooltipContent className="rounded-md bg-white px-5 py-3 shadow-md">
+      <TooltipContent className="z-0 rounded-md bg-white px-5 py-3 shadow-md">
         <CropDetails grid={grid} />
       </TooltipContent>
     </Tooltip>
