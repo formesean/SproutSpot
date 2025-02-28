@@ -11,6 +11,18 @@ import {
 import Link from "next/link";
 import CsvUploader from "./csv-uploader";
 import type { Session } from "next-auth";
+import { useState } from "react";
+import { Trash } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "~/components/ui/dialog";
+import { api } from "~/trpc/react";
 
 type Farm = {
   id: string;
@@ -27,6 +39,14 @@ export default function NavBar({
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
+  const [hoveredFarm, setHoveredFarm] = useState<string | null>(null);
+  const [farmToDelete, setFarmToDelete] = useState<Farm | null>(null);
+
+  const deleteFarmMutation = api.playground.deleteFarm.useMutation({
+    onSuccess: () => {
+      router.refresh();
+    },
+  });
 
   const selectedFarmId = searchParams.get("farmId") ?? farms[0]?.id;
 
@@ -35,6 +55,17 @@ export default function NavBar({
     params.set("farmId", farmId);
 
     router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+  };
+
+  const confirmDeleteFarm = (farm: Farm) => {
+    setFarmToDelete(farm);
+  };
+
+  const handleDeleteFarm = () => {
+    if (farmToDelete) {
+      deleteFarmMutation.mutate({ farmId: farmToDelete.id });
+      setFarmToDelete(null);
+    }
   };
 
   return (
@@ -52,9 +83,54 @@ export default function NavBar({
               farms.map((farm, index) => (
                 <DropdownMenuItem
                   key={farm.id}
-                  onClick={() => handleFarmSelect(farm.id)}
+                  onMouseEnter={() => setHoveredFarm(farm.id)}
+                  onMouseLeave={() => setHoveredFarm(null)}
+                  className="flex items-center justify-between"
                 >
-                  {["🌿", "🌾", "🍀", "🌻", "🌴"][index % 5]} {farm.name}
+                  <span
+                    onClick={() => handleFarmSelect(farm.id)}
+                    className="flex-1"
+                  >
+                    {["🌿", "🌾", "🍀", "🌻", "🌴"][index % 5]} {farm.name}
+                  </span>
+                  {hoveredFarm === farm.id && (
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <button
+                          className="ml-2 text-red-500 hover:text-red-700"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            confirmDeleteFarm(farm);
+                          }}
+                        >
+                          <Trash size={16} />
+                        </button>
+                      </DialogTrigger>
+                      <DialogContent>
+                        <DialogHeader>
+                          <DialogTitle>Confirm Deletion</DialogTitle>
+                          <DialogDescription>
+                            Are you sure you want to delete {farmToDelete?.name}
+                            ? This action cannot be undone.
+                          </DialogDescription>
+                        </DialogHeader>
+                        <DialogFooter>
+                          <Button
+                            variant="outline"
+                            onClick={() => setFarmToDelete(null)}
+                          >
+                            Cancel
+                          </Button>
+                          <Button
+                            variant="destructive"
+                            onClick={handleDeleteFarm}
+                          >
+                            Delete
+                          </Button>
+                        </DialogFooter>
+                      </DialogContent>
+                    </Dialog>
+                  )}
                 </DropdownMenuItem>
               ))
             ) : (

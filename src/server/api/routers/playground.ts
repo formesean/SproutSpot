@@ -37,7 +37,7 @@ export const playgroundRouter = createTRPCRouter({
         );
       }
 
-      // Fetch existing farm names
+      // Fetch existing farm names owned by the user
       const existingFarms = await db.farm.findMany({
         where: { ownerId },
         select: { name: true },
@@ -113,21 +113,35 @@ export const playgroundRouter = createTRPCRouter({
     });
   }),
 
-  // Fetch actual playground data
-  getActualGrid: publicProcedure
+  // Fetch actual playground data for the user's farm
+  getActualGrid: protectedProcedure
     .input(z.object({ farmId: z.string() }))
-    .query(async ({ input }) => {
+    .query(async ({ input, ctx }) => {
+      const ownerId = ctx.session?.user?.id;
+      if (!ownerId) {
+        throw new Error(
+          "Unauthorized: User must be logged in to fetch grid data.",
+        );
+      }
+
       return await db.actualGrid.findMany({
-        where: { farmId: input.farmId },
+        where: { farmId: input.farmId, farm: { ownerId } },
       });
     }),
 
-  // Fetch experimental playground data
-  getExperimentalGrid: publicProcedure
+  // Fetch experimental playground data for the user's farm
+  getExperimentalGrid: protectedProcedure
     .input(z.object({ farmId: z.string() }))
-    .query(async ({ input }) => {
+    .query(async ({ input, ctx }) => {
+      const ownerId = ctx.session?.user?.id;
+      if (!ownerId) {
+        throw new Error(
+          "Unauthorized: User must be logged in to fetch grid data.",
+        );
+      }
+
       return await db.experimentalGrid.findMany({
-        where: { farmId: input.farmId },
+        where: { farmId: input.farmId, farm: { ownerId } },
       });
     }),
 
@@ -207,7 +221,7 @@ export const playgroundRouter = createTRPCRouter({
         where: { farmId: input.farmId },
       });
       await db.experimentalGrid.createMany({
-        data: actualGridData.map(({ id, farmId, ...rest }) => ({
+        data: actualGridData.map(({ farmId, ...rest }) => ({
           farmId,
           ...rest,
         })),
