@@ -37,7 +37,7 @@ export const playgroundRouter = createTRPCRouter({
         );
       }
 
-      // Fetch existing farm names
+      // Fetch existing farm names owned by the user
       const existingFarms = await db.farm.findMany({
         where: { ownerId },
         select: { name: true },
@@ -113,21 +113,35 @@ export const playgroundRouter = createTRPCRouter({
     });
   }),
 
-  // Fetch actual playground data
-  getActualGrid: publicProcedure
+  // Fetch actual playground data for the user's farm
+  getActualGrid: protectedProcedure
     .input(z.object({ farmId: z.string() }))
-    .query(async ({ input }) => {
+    .query(async ({ input, ctx }) => {
+      const ownerId = ctx.session?.user?.id;
+      if (!ownerId) {
+        throw new Error(
+          "Unauthorized: User must be logged in to fetch grid data.",
+        );
+      }
+
       return await db.actualGrid.findMany({
-        where: { farmId: input.farmId },
+        where: { farmId: input.farmId, farm: { ownerId } },
       });
     }),
 
-  // Fetch experimental playground data
-  getExperimentalGrid: publicProcedure
+  // Fetch experimental playground data for the user's farm
+  getExperimentalGrid: protectedProcedure
     .input(z.object({ farmId: z.string() }))
-    .query(async ({ input }) => {
+    .query(async ({ input, ctx }) => {
+      const ownerId = ctx.session?.user?.id;
+      if (!ownerId) {
+        throw new Error(
+          "Unauthorized: User must be logged in to fetch grid data.",
+        );
+      }
+
       return await db.experimentalGrid.findMany({
-        where: { farmId: input.farmId },
+        where: { farmId: input.farmId, farm: { ownerId } },
       });
     }),
 
@@ -162,5 +176,60 @@ export const playgroundRouter = createTRPCRouter({
           growthStage: input.growthStage,
         },
       });
+    }),
+
+  // Delete a farm
+  deleteFarm: protectedProcedure
+    .input(z.object({ farmId: z.string() }))
+    .mutation(async ({ input, ctx }) => {
+      const ownerId = ctx.session?.user?.id;
+      if (!ownerId) {
+        throw new Error(
+          "Unauthorized: User must be logged in to delete a farm.",
+        );
+      }
+
+      // Ensure the farm belongs to the user
+      const farm = await db.farm.findFirst({
+        where: { id: input.farmId, ownerId },
+      });
+      if (!farm) {
+        throw new Error(
+          "Farm not found or you do not have permission to delete it.",
+        );
+      }
+
+      // Delete associated grid data first
+      await db.actualGrid.deleteMany({ where: { farmId: input.farmId } });
+      await db.experimentalGrid.deleteMany({ where: { farmId: input.farmId } });
+
+      // Delete the farm
+      await db.farm.delete({ where: { id: input.farmId } });
+
+      return { success: true, message: "Farm deleted successfully." };
+    }),
+
+  // Reset experimental grid to match actual grid
+  resetExperimentalGrid: protectedProcedure
+    .input(z.object({ farmId: z.string() }))
+    .mutation(async ({ input }) => {
+      // Delete existing experimental grid data
+      await db.experimentalGrid.deleteMany({ where: { farmId: input.farmId } });
+
+      // Copy actual grid data to experimental grid
+      const actualGridData = await db.actualGrid.findMany({
+        where: { farmId: input.farmId },
+      });
+      await db.experimentalGrid.createMany({
+        data: actualGridData.map(({ farmId, ...rest }) => ({
+          farmId,
+          ...rest,
+        })),
+      });
+
+      return {
+        success: true,
+        message: "Experimental grid reset successfully.",
+      };
     }),
 });

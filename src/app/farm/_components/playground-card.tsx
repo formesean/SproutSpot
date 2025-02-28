@@ -25,27 +25,38 @@ interface CropDetailsProps {
   grid: GridItem;
 }
 
-const CropDetails = ({ grid }: CropDetailsProps) => (
-  <div>
-    <h1 className="text-base font-semibold text-[#166534]">Crop Details</h1>
-    <p className="text-sm text-[#15803d]">See how your crops are doing.</p>
-    <hr className="my-2 border-[#15803d]" />
-    <div className="space-y-1">
-      {[
-        { label: "Crop Type", value: grid.cropType },
-        { label: "Crop Count", value: grid.cropCount },
-        { label: "Growth Stage", value: grid.growthStage ?? "Seedling" },
-        { label: "Water Level", value: grid.waterLevel },
-        { label: "Moisture Level", value: grid.moistureLevel },
-      ].map(({ label, value }) => (
-        <div key={label} className="flex justify-between">
-          <span className="font-medium text-[#166534]">{label}:</span>
-          <span className="text-sm text-[#15803d]">{value}</span>
-        </div>
-      ))}
+const CropDetails = ({ grid }: CropDetailsProps) => {
+  if (!grid.cropType) {
+    return (
+      <div>
+        <h1 className="text-base font-semibold text-[#166534]">Empty farm</h1>
+        <p className="text-sm text-[#15803d]">Click the🌾Farm button.</p>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <h1 className="text-base font-semibold text-[#166534]">Crop Details</h1>
+      <p className="text-sm text-[#15803d]">See how your crops are doing.</p>
+      <hr className="my-2 border-[#15803d]" />
+      <div className="space-y-1">
+        {[
+          { label: "Crop Type", value: grid.cropType },
+          { label: "Crop Count", value: grid.cropCount },
+          { label: "Growth Stage", value: grid.growthStage ?? "Seedling" },
+          { label: "Water Level", value: grid.waterLevel },
+          { label: "Moisture Level", value: grid.moistureLevel },
+        ].map(({ label, value }) => (
+          <div key={label} className="flex justify-between">
+            <span className="font-medium text-[#166534]">{label}:</span>
+            <span className="text-sm text-[#15803d]">{value}</span>
+          </div>
+        ))}
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 interface GridCellProps {
   grid: GridItem;
@@ -63,12 +74,12 @@ const GridCell = ({ grid, isExperimental, getEmojiSize }: GridCellProps) => {
             ? "🌽"
             : grid.cropType === "sugarcane"
               ? "🎍"
-              : "🌱"}
+              : ""}
       </span>
     </Button>
   );
 
-  if (isExperimental) {
+  if (isExperimental && grid.cropType) {
     return (
       <Tooltip delayDuration={200}>
         <TooltipTrigger asChild>
@@ -132,6 +143,20 @@ export default function PlaygroundCard({
     }
   };
 
+  const defaultGrid = Array.from({ length: 12 }).map((_, index) => ({
+    id: `empty-${index}`,
+    cropType: "",
+    cropCount: 0,
+    waterLevel: 0,
+    moistureLevel: 0,
+    growthStage: "Seedling",
+    row: Math.floor(index / 4),
+    column: index % 4,
+    farmId: "",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  }));
+
   return (
     <div className="m-5">
       <Card className="border-[#15803d]">
@@ -146,13 +171,15 @@ export default function PlaygroundCard({
                 : "Where you can test on your farm"}
             </CardDescription>
           </div>
-          <PixelHeatMap gridData={gridData} />
+          <PixelHeatMap
+            gridData={gridData.length > 0 ? gridData : defaultGrid}
+          />
         </CardHeader>
         <CardContent>
           <Card className="bg-[url('/grass.png')] bg-contain">
             <TooltipProvider>
               <div className="z-0 m-1 grid grid-cols-4 grid-rows-3">
-                {gridData.map((grid) => (
+                {(gridData.length > 0 ? gridData : defaultGrid).map((grid) => (
                   <GridCell
                     key={grid.id}
                     grid={grid}

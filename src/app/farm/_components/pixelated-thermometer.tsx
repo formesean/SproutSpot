@@ -17,7 +17,10 @@ export default function PixelThermometer({
   const [temperature, setTemperature] = useState(24);
 
   useEffect(() => {
-    if (gridData.length === 0) return;
+    if (gridData.length === 0) {
+      setTemperature(0);
+      return;
+    }
 
     const avgWaterLevel =
       gridData.reduce((sum, cell) => sum + (cell.waterLevel || 1), 0) /

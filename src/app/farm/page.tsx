@@ -11,14 +11,20 @@ type GridData = ActualGrid | ExperimentalGrid;
 
 export default async function Farm() {
   const session = await auth();
+
+  if (!session) {
+    throw new Error("Unauthorized: User must be logged in.");
+  }
+
   const searchParams = new URLSearchParams(
     (await headers()).get("referer")?.split("?")[1],
   );
+
   const farmIdParam = searchParams.get("farmId");
 
   // Fetch farms owned by the user
   const farms = await db.farm.findMany({
-    where: { ownerId: session?.user.id },
+    where: { ownerId: session.user.id },
     orderBy: { name: "asc" },
   });
 
@@ -41,14 +47,20 @@ export default async function Farm() {
       updatedAt: grid.updateAt,
     }));
 
-  // Fetch grid data
+  // Fetch grid data only for the selected farm and owner
   const [actualGridDataRaw, experimentalGridDataRaw] = await Promise.all([
     db.actualGrid.findMany({
-      where: { farmId: selectedFarmId },
+      where: {
+        farmId: selectedFarmId,
+        farm: { ownerId: session.user.id },
+      },
       orderBy: { id: "asc" },
     }),
     db.experimentalGrid.findMany({
-      where: { farmId: selectedFarmId },
+      where: {
+        farmId: selectedFarmId,
+        farm: { ownerId: session.user.id },
+      },
       orderBy: { id: "asc" },
     }),
   ]);
