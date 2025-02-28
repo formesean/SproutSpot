@@ -5,9 +5,10 @@ import Link from "next/link";
 import Image from "next/image";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
+import type { Session } from "next-auth";
 
 interface NavBarProps {
-  session: any;
+  session: Session | null;
 }
 
 export default function NavBar({ session }: NavBarProps) {
