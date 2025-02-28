@@ -5,67 +5,21 @@ import FAQ from "./_components/faq";
 import Footer from "./_components/footer";
 import { auth } from "~/server/auth";
 import Link from "next/link";
-import Image from "next/image";
+import NavBar from "./_components/nav-bar";
 
 export default async function Home() {
   const session = await auth();
 
   return (
     <div className="min-h-screen scroll-smooth bg-gradient-to-b from-green-50 to-green-100">
-      <header className="container mx-auto px-4 py-8">
-        <nav className="flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <Image
-              src={"/icon.svg"}
-              height={32}
-              width={32}
-              alt="SproutSpot logo"
-            />
-            <span className="text-2xl font-bold text-green-800">
-              SproutSpot
-            </span>
-          </div>
-          <div className="space-x-4">
-            <a href="#features">
-              <Button
-                variant="ghost"
-                className="text-green-700 hover:bg-green-100 hover:text-green-800"
-              >
-                Features
-              </Button>
-            </a>
-            <a href="#about">
-              <Button
-                variant="ghost"
-                className="text-green-700 hover:bg-green-100 hover:text-green-800"
-              >
-                About
-              </Button>
-            </a>
-            <Link
-              href={
-                session
-                  ? "/api/auth/signout"
-                  : `/api/auth/signin?callbackUrl=/farm`
-              }
-            >
-              <Button
-                variant="outline"
-                className="border-green-600 text-green-600 hover:bg-green-600 hover:text-white"
-              >
-                {session ? "Sign out" : "Sign in"}
-              </Button>
-            </Link>
-          </div>
-        </nav>
-      </header>
+      <NavBar session={session} />
 
-      <main className="container mx-auto px-4 py-16">
-        <div className="mx-auto mb-24 max-w-3xl text-center">
-          <h1 className="mb-6 text-4xl font-bold text-green-800 lg:text-5xl">
+      <main className="container mx-auto px-4 py-8 sm:py-16">
+        <div className="mx-auto mb-12 max-w-3xl text-center sm:mb-24">
+          <h1 className="mb-4 text-3xl font-bold text-green-800 sm:text-4xl lg:text-5xl">
             Revolutionize Your Farming with AI
           </h1>
-          <p className="mb-8 text-xl text-green-700">
+          <p className="mb-6 text-lg text-green-700 sm:text-xl">
             SproutSpot empowers farmers with AI-driven predictions and digital
             twin simulations to optimize crop yield and sustainability.
           </p>
@@ -82,8 +36,8 @@ export default async function Home() {
         </section>
 
         {/* SIGN IN */}
-        <section className="mt-24 text-center">
-          <h2 className="mb-4 text-3xl font-bold text-green-800">
+        <section className="mt-12 text-center sm:mt-24">
+          <h2 className="mb-4 text-2xl font-bold text-green-800 sm:text-3xl">
             Ready to Transform Your Farm?
           </h2>
           <p className="mb-6 text-lg text-green-700">

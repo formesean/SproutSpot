@@ -29,7 +29,7 @@ export default function FAQ() {
 
   return (
     <div className="mx-auto max-w-3xl p-4">
-      <h2 className="mb-6 text-center text-3xl font-bold text-green-800">
+      <h2 className="mb-6 text-center text-2xl font-bold text-green-800 sm:text-3xl">
         Frequently Asked Questions
       </h2>
       <div className="space-y-4">

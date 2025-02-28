@@ -47,12 +47,12 @@ export default function KeyFeatures() {
   }, []);
 
   return (
-    <section className="mx-auto max-w-7xl px-6 py-10">
-      <h2 className="mb-8 text-center text-3xl font-bold text-green-800">
+    <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10">
+      <h2 className="mb-8 text-center text-2xl font-bold text-green-800 sm:text-3xl">
         Key Features
       </h2>
 
-      <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
         {features.map((feature, index) => {
           const isActive = activeIndex === index;
 
@@ -62,7 +62,7 @@ export default function KeyFeatures() {
               ref={(el) => {
                 cardRefs.current[index] = el;
               }}
-              className={`transform rounded-lg p-4 transition-all duration-300 hover:scale-105 ${
+              className={`transform rounded-lg p-4 transition-all duration-300 hover:scale-105 hover:cursor-pointer ${
                 isActive
                   ? "border-2 border-green-500 shadow-lg"
                   : "border-transparent"

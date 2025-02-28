@@ -131,10 +131,10 @@ export default function CropInputs({ grid }: CropInputsProps) {
   };
 
   return (
-    <div className="z-10 space-y-3">
+    <div className="z-10 space-y-2 sm:space-y-3">
       {/* Water Input */}
-      <div className="flex items-center justify-between space-x-3">
-        <Label className="w-[4rem] text-[#166534]">Water</Label>
+      <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
+        <Label className="text-sm text-[#166534] sm:w-[4rem]">Water</Label>
         <Slider
           value={[water]}
           max={100}
@@ -152,8 +152,8 @@ export default function CropInputs({ grid }: CropInputsProps) {
       </div>
 
       {/* Fertilizer Input */}
-      <div className="flex items-center justify-between space-x-3">
-        <Label className="w-[4rem] text-[#166534]">Fertilizer</Label>
+      <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
+        <Label className="text-sm text-[#166534] sm:w-[4rem]">Fertilizer</Label>
         <Slider
           value={[fertilizer]}
           max={100}
@@ -171,8 +171,8 @@ export default function CropInputs({ grid }: CropInputsProps) {
       </div>
 
       {/* Pesticide Input */}
-      <div className="flex items-center justify-between space-x-3">
-        <Label className="w-[4rem] text-[#166534]">Pesticide</Label>
+      <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
+        <Label className="text-sm text-[#166534] sm:w-[4rem]">Pesticide</Label>
         <Slider
           value={[pesticide]}
           max={100}
@@ -190,13 +190,13 @@ export default function CropInputs({ grid }: CropInputsProps) {
       </div>
 
       {/* Weather Dropdown */}
-      <div className="flex items-center justify-between space-x-3">
-        <Label className="w-[4rem] text-[#166534]">Weather</Label>
+      <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
+        <Label className="text-sm text-[#166534] sm:w-[4rem]">Weather</Label>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
               variant="outline"
-              className="flex-1 border-[#166534] text-[#166534]"
+              className="w-full border-[#166534] text-[#166534] sm:w-auto"
             >
               {weather ?? "Choose Weather"}
             </Button>
