@@ -1,8 +1,5 @@
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "~/components/ui/popover";
+"use client";
+
 import {
   Tooltip,
   TooltipContent,
@@ -17,11 +14,11 @@ import {
   CardTitle,
 } from "~/components/ui/card";
 import type { GridItem } from "~/types/grid-item.types";
-import { Button } from "~/components/ui/button";
-import CropInputs from "./crop-input";
 import PixelHeatMap from "./pixelated-heat-map";
 import Droppable from "./droppable";
 import { cn } from "~/lib/utils";
+import { Button } from "~/components/ui/button";
+import { useState } from "react";
 
 interface CropDetailsProps {
   grid: GridItem;
@@ -64,15 +61,18 @@ interface GridCellProps {
   grid: GridItem;
   isExperimental: boolean;
   getEmojiSize: (growthStage?: string) => string;
+  onDrop: (id: string) => void;
 }
 
-const GridCell = ({ grid, isExperimental, getEmojiSize }: GridCellProps) => {
-  const buttonContent = (
-    <Droppable
-      id={grid.id}
-      className="pointer-events-auto m-1 flex items-center justify-center border border-black bg-[url('/soil.png')] bg-cover sm:h-16 sm:w-16 md:h-[102px] md:w-[102px]"
-    >
-      <span className={cn("text-2xl", getEmojiSize(grid.growthStage))}>
+const GridCell = ({
+  grid,
+  isExperimental,
+  getEmojiSize,
+  onDrop,
+}: GridCellProps) => {
+  const actualCell = (
+    <Button className="pointer-events-auto m-1 cursor-none border-[1px] border-black bg-[url('/soil.png')] bg-contain sm:h-16 sm:w-16 md:h-[102px] md:w-[102px]">
+      <span className={getEmojiSize(grid.growthStage)}>
         {grid.cropType === "rice"
           ? "🌾"
           : grid.cropType === "corn"
@@ -81,12 +81,43 @@ const GridCell = ({ grid, isExperimental, getEmojiSize }: GridCellProps) => {
               ? "🎍"
               : ""}
       </span>
-    </Droppable>
+    </Button>
   );
+
+  const experimentalCell = (
+    <div className="inline-block">
+      <Droppable
+        id={grid.id}
+        className="pointer-events-auto m-1 flex items-center justify-center border border-black bg-[url('/soil.png')] bg-cover sm:h-16 sm:w-16 md:h-[102px] md:w-[102px]"
+        onDrop={onDrop}
+      >
+        <span className={cn("text-2xl", getEmojiSize(grid.growthStage))}>
+          {grid.cropType === "rice"
+            ? "🌾"
+            : grid.cropType === "corn"
+              ? "🌽"
+              : grid.cropType === "sugarcane"
+                ? "🎍"
+                : ""}
+        </span>
+      </Droppable>
+    </div>
+  );
+
+  if (isExperimental && grid.cropType) {
+    return (
+      <Tooltip delayDuration={200}>
+        <TooltipTrigger asChild>{experimentalCell}</TooltipTrigger>
+        <TooltipContent className="z-0 rounded-md bg-white px-5 py-3 shadow-md">
+          <CropDetails grid={grid} />
+        </TooltipContent>
+      </Tooltip>
+    );
+  }
 
   return (
     <Tooltip delayDuration={200}>
-      <TooltipTrigger asChild>{buttonContent}</TooltipTrigger>
+      <TooltipTrigger asChild>{actualCell}</TooltipTrigger>
       <TooltipContent className="z-0 rounded-md bg-white px-5 py-3 shadow-md">
         <CropDetails grid={grid} />
       </TooltipContent>
@@ -103,6 +134,17 @@ export default function PlaygroundCard({
   title,
   gridData = [],
 }: PlaygroundCardProps) {
+  const [gridItems, setGridItems] = useState(gridData);
+
+  const handleDrop = (id: string) => {
+    console.log(`Item dropped and released on cell with ID: ${id}`); // Log the drop event
+    setGridItems((prevGrid) =>
+      prevGrid.map(
+        (grid) => (grid.id === id ? { ...grid, cropType: "rice" } : grid), // Update the grid item
+      ),
+    );
+  };
+
   const getEmojiSize = (growthStage: string | undefined) => {
     switch (growthStage) {
       case "Seedling":
@@ -166,6 +208,7 @@ export default function PlaygroundCard({
                     grid={grid}
                     isExperimental={title === "Experimental Playground"}
                     getEmojiSize={getEmojiSize}
+                    onDrop={handleDrop}
                   />
                 ))}
               </div>
