@@ -23,6 +23,14 @@ export default async function Home() {
             SproutSpot empowers farmers with AI-driven predictions and digital
             twin simulations to optimize crop yield and sustainability.
           </p>
+
+          {/* Embedded Video */}
+          <div className="relative mx-auto max-w-2xl">
+            <video className="w-full rounded-lg shadow-xl" controls>
+              <source src="/SproutSpot.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </div>
         </div>
 
         {/* KEY FEATURES SECTION*/}
