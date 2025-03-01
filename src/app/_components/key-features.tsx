@@ -62,7 +62,7 @@ export default function KeyFeatures() {
               ref={(el) => {
                 cardRefs.current[index] = el;
               }}
-              className={`transform rounded-lg p-4 transition-all duration-300 hover:scale-105 hover:cursor-pointer ${
+              className={`transform rounded-lg p-4 transition-all duration-300 hover:scale-105 ${
                 isActive
                   ? "border-2 border-green-500 shadow-lg"
                   : "border-transparent"

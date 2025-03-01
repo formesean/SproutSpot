@@ -19,17 +19,26 @@ export default function Footer() {
             <h3 className="mb-4 text-xl font-semibold">Quick Links</h3>
             <ul className="space-y-2">
               <li>
-                <Link href="/" className="hover:underline">
+                <Link
+                  href="/"
+                  className="pointer-events-auto cursor-none hover:underline"
+                >
                   Home
                 </Link>
               </li>
               <li>
-                <Link href="#features" className="hover:underline">
+                <Link
+                  href="#features"
+                  className="pointer-events-auto cursor-none hover:underline"
+                >
                   Features
                 </Link>
               </li>
               <li>
-                <Link href="#about" className="hover:underline">
+                <Link
+                  href="#about"
+                  className="pointer-events-auto cursor-none hover:underline"
+                >
                   About Us
                 </Link>
               </li>
@@ -45,7 +54,7 @@ export default function Footer() {
                   href="https://www.linkedin.com/in/seanaguilar04"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:underline"
+                  className="pointer-events-auto cursor-none hover:underline"
                 >
                   LinkedIn
                 </a>
@@ -55,7 +64,7 @@ export default function Footer() {
                   href="https://www.instagram.com/seanaguuuu"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:underline"
+                  className="pointer-events-auto cursor-none hover:underline"
                 >
                   Instagram
                 </a>
@@ -63,7 +72,7 @@ export default function Footer() {
               <li>
                 <a
                   href="mailto:seanaguilar698@gmail.com"
-                  className="hover:underline"
+                  className="pointer-events-auto cursor-none hover:underline"
                 >
                   Gmail
                 </a>

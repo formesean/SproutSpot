@@ -66,7 +66,7 @@ interface GridCellProps {
 
 const GridCell = ({ grid, isExperimental, getEmojiSize }: GridCellProps) => {
   const buttonContent = (
-    <Button className="m-1 border-[1px] border-black bg-[url('/soil.png')] bg-contain sm:h-16 sm:w-16 md:h-[102px] md:w-[102px]">
+    <Button className="pointer-events-auto m-1 cursor-none border-[1px] border-black bg-[url('/soil.png')] bg-contain sm:h-16 sm:w-16 md:h-[102px] md:w-[102px]">
       <span className={getEmojiSize(grid.growthStage)}>
         {grid.cropType === "rice"
           ? "🌾"
