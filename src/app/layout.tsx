@@ -6,7 +6,7 @@ import { type Metadata } from "next";
 import { TRPCReactProvider } from "~/trpc/react";
 import { Analytics } from "@vercel/analytics/next";
 import { Toaster } from "~/components/ui/sonner";
-import DndProviderWrapper from "./_components/dnd-provider-wrapper";
+import DndContextWrapper from "./_components/dnd-context-wrapper";
 
 export const metadata: Metadata = {
   title: "SproutSpot",
@@ -18,14 +18,18 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${GeistSans.variable}`}>
+    <html
+      lang="en"
+      className={`${GeistSans.variable}`}
+      suppressHydrationWarning
+    >
       <body>
         <TRPCReactProvider>
-          <DndProviderWrapper>
+          <DndContextWrapper>
             {children}
             <Toaster position="top-left" expand={true} />
             <Analytics />
-          </DndProviderWrapper>
+          </DndContextWrapper>
         </TRPCReactProvider>
       </body>
     </html>
