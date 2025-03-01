@@ -74,22 +74,22 @@ export default function NavBar({
         {/* Farm Selection */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button className="bg-[#15803d] text-sm sm:text-base">
+            <Button className="pointer-events-auto cursor-none bg-[#15803d] text-sm sm:text-base">
               🌾 {farms.find((f) => f.id === selectedFarmId)?.name ?? "Farm"}
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="start" className="border-[#15803d]">
+          <DropdownMenuContent align="start" className="z-0 border-[#15803d]">
             {farms.length > 0 ? (
               farms.map((farm, index) => (
                 <DropdownMenuItem
                   key={farm.id}
                   onMouseEnter={() => setHoveredFarm(farm.id)}
                   onMouseLeave={() => setHoveredFarm(null)}
-                  className="flex items-center justify-between"
+                  className="pointer-events-auto flex cursor-none items-center justify-between"
                 >
                   <span
                     onClick={() => handleFarmSelect(farm.id)}
-                    className="flex-1"
+                    className="pointer-events-auto flex-1 cursor-none"
                   >
                     {["🌿", "🌾", "🍀", "🌻", "🌴"][index % 5]} {farm.name}
                   </span>
@@ -97,7 +97,7 @@ export default function NavBar({
                     <Dialog>
                       <DialogTrigger asChild>
                         <button
-                          className="ml-2 text-red-500 hover:text-red-700"
+                          className="pointer-events-auto ml-2 cursor-none text-red-500 hover:text-red-700"
                           onClick={(e) => {
                             e.stopPropagation();
                             confirmDeleteFarm(farm);
@@ -147,16 +147,19 @@ export default function NavBar({
         {/* Main Menu */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button className="bg-[#15803d] text-sm sm:text-base">
+            <Button className="pointer-events-auto cursor-none bg-[#15803d] text-sm sm:text-base">
               ☰ Menu
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="start" className="border-[#15803d]">
-            <DropdownMenuItem>
-              <Link href={"/"}>🏠 Home</Link>
+          <DropdownMenuContent align="start" className="z-0 border-[#15803d]">
+            <DropdownMenuItem className="pointer-events-auto cursor-none">
+              <Link href={"/"} className="pointer-events-auto cursor-none">
+                🏠 Home
+              </Link>
             </DropdownMenuItem>
-            <DropdownMenuItem className="text-red-500">
+            <DropdownMenuItem className="pointer-events-auto cursor-none text-red-500">
               <Link
+                className="pointer-events-auto cursor-none"
                 href={
                   session
                     ? "/api/auth/signout?callbackUrl=/"
