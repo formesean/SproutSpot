@@ -107,6 +107,7 @@ export default async function Farm() {
           </div>
         </div>
       </div>
+
       <Pointer className="!z-50 fill-[#15803d]" />
     </>
   );

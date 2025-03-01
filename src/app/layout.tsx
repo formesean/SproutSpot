@@ -6,6 +6,7 @@ import { type Metadata } from "next";
 import { TRPCReactProvider } from "~/trpc/react";
 import { Analytics } from "@vercel/analytics/next";
 import { Toaster } from "~/components/ui/sonner";
+import DndProviderWrapper from "./_components/dnd-provider-wrapper";
 
 export const metadata: Metadata = {
   title: "SproutSpot",
@@ -20,9 +21,11 @@ export default function RootLayout({
     <html lang="en" className={`${GeistSans.variable}`}>
       <body>
         <TRPCReactProvider>
-          {children}
-          <Toaster position="top-left" expand={true} />
-          <Analytics />
+          <DndProviderWrapper>
+            {children}
+            <Toaster position="top-left" expand={true} />
+            <Analytics />
+          </DndProviderWrapper>
         </TRPCReactProvider>
       </body>
     </html>
