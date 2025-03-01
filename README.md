@@ -41,6 +41,14 @@ SproutSpot is an innovative web application that empowers farmers and agricultur
 **AI/ML**:  
   ![Gemini 2.0 Flash](https://img.shields.io/badge/Gemini_2.0_Flash-FF6F61?logo=googleai&logoColor=white)
 
+## 🌍 Connect With Us
+
+- **Sean Aguilar** [[Email](mailto:seanaguilar698@gmail.com)] [[LinkedIn](https://www.linkedin.com/in/seanaguilar04)]
+- **Lysander Uy** [[Email](mailto:beabelle.canos@gmail.com)] [[LinkedIn]([https://www.linkedin.com/in/beabellecanos)]
+- **Bea Caños** [[Email](mailto:mayochia5@gmail.com)] [[LinkedIn](https://www.linkedin.com/in/may-ochia-086267270)]
+- **May Ochia** [[Email](mailto:lysander.uy@gmail.com)] [[LinkedIn](https://www.linkedin.com/in/lysander-uy-805557223)]
+- **Christian Aleria** [[Email](mailto:christianrayaleria@gmail.com)] [[LinkedIn](https://www.linkedin.com/in/christian-aleria-350a90353)]
+
 ---
 
 **Empowering Farmers Through AI Innovation** 🌱🚜💡
