@@ -12,7 +12,6 @@ interface PixelThermometerProps {
 export default function PixelThermometer({
   gridData,
   width = 15,
-  height = 310,
 }: PixelThermometerProps) {
   const [temperature, setTemperature] = useState(24);
 
@@ -50,12 +49,11 @@ export default function PixelThermometer({
   };
 
   return (
-    <div className="inline-flex flex-col items-center gap-1 px-2 pt-[5rem]">
+    <div className="inline-flex flex-col items-center gap-1 px-2 pt-[5rem] sm:pt-[5rem]">
       <div
-        className="relative overflow-hidden rounded-lg bg-[#1E1E1E]"
+        className="relative h-[120px] overflow-hidden rounded-lg bg-[#1E1E1E] sm:h-[310px]"
         style={{
           width: `${width}px`,
-          height: `${height}px`,
           border: "2px solid #2D2D2D",
           boxShadow: "inset 0 0 0 2px #171717",
         }}
@@ -70,11 +68,9 @@ export default function PixelThermometer({
         />
       </div>
       <div
-        className="rounded px-1 font-bold"
+        className="w-[30px] rounded px-1 text-[14px] font-bold"
         style={{
           color: getColor(temperature),
-          fontSize: "16px",
-          width: "30px",
         }}
       >
         {temperature}°

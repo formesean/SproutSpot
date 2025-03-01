@@ -70,11 +70,11 @@ export default function NavBar({
 
   return (
     <>
-      <div className="absolute right-9 top-9 flex gap-2">
+      <div className="absolute right-4 top-4 flex gap-2 sm:right-9 sm:top-9">
         {/* Farm Selection */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button className="bg-[#15803d]">
+            <Button className="bg-[#15803d] text-sm sm:text-base">
               🌾 {farms.find((f) => f.id === selectedFarmId)?.name ?? "Farm"}
             </Button>
           </DropdownMenuTrigger>
@@ -147,7 +147,9 @@ export default function NavBar({
         {/* Main Menu */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button className="bg-[#15803d]">☰ Menu</Button>
+            <Button className="bg-[#15803d] text-sm sm:text-base">
+              ☰ Menu
+            </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="start" className="border-[#15803d]">
             <DropdownMenuItem>

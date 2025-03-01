@@ -18,7 +18,6 @@ export default function CsvUploader() {
   const importCSV = api.playground.importCSV.useMutation({
     onSuccess: () => {
       setLoading(false);
-      alert("CSV data imported successfully!");
       if (fileInputRef.current) fileInputRef.current.value = "";
       router.refresh();
     },
@@ -48,7 +47,7 @@ export default function CsvUploader() {
         }
 
         const parsedData = results.data.map((row, index) => ({
-          id: crypto.randomUUID(), // Generate unique ID
+          id: crypto.randomUUID(),
           cropType: row.croptype ?? "",
           cropCount: Number(row.cropcount) ?? 0,
           waterLevel: Number(row.waterlvl) ?? 0,
@@ -71,7 +70,7 @@ export default function CsvUploader() {
   };
 
   return (
-    <div className="flex flex-col items-center gap-4">
+    <div className="flex flex-col items-center gap-2 sm:gap-4">
       <input
         ref={fileInputRef}
         type="file"
@@ -83,7 +82,7 @@ export default function CsvUploader() {
 
       <Button
         variant="outline"
-        className="w-full border-2 bg-[#15803d] text-white hover:bg-[#15803d]/80 hover:text-white"
+        className="w-full border-2 bg-[#15803d] text-white hover:bg-[#15803d]/80 hover:text-white sm:w-auto"
         onClick={() => document.getElementById("file-upload")?.click()}
         disabled={loading}
       >
@@ -96,7 +95,7 @@ export default function CsvUploader() {
         )}
       </Button>
 
-      {error && <p className="text-red-500">{error}</p>}
+      {error && <p className="text-sm text-red-500 sm:text-base">{error}</p>}
     </div>
   );
 }
