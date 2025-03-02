@@ -70,7 +70,7 @@ export default function CsvUploader() {
   };
 
   return (
-    <div className="flex flex-col items-center gap-2 sm:gap-4">
+    <div className="pointer-events-auto flex cursor-none flex-col items-center gap-2 sm:gap-4">
       <input
         ref={fileInputRef}
         type="file"
@@ -82,7 +82,7 @@ export default function CsvUploader() {
 
       <Button
         variant="outline"
-        className="w-full border-2 bg-[#15803d] text-white hover:bg-[#15803d]/80 hover:text-white sm:w-auto"
+        className="pointer-events-auto w-full cursor-none border-2 bg-[#15803d] text-white hover:bg-[#15803d]/80 hover:text-white sm:w-auto"
         onClick={() => document.getElementById("file-upload")?.click()}
         disabled={loading}
       >
