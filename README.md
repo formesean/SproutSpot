@@ -15,8 +15,8 @@ SproutSpot is an innovative web application that empowers farmers and agricultur
   Easily upload farm data via CSV files, which are stored in the database and duplicated for experimental purposes.
 
 - **🖥️ Interactive Farm Playgrounds**  
-  - **Actual Playground**: Visualize your farm's current state with a grid-based interface. Hover over cells to view detailed information using shadcn tooltips.  
-  - **Experimental Playground**: Simulate different farming scenarios by modifying parameters. Right-click on cells to adjust experimental variables using shadcn context menus.
+  - **Actual Playground**: Visualize your farm's current state with a grid-based interface.
+  - **Experimental Playground**: Simulate different farming scenarios by modifying parameters.
 
 - **💡 AI-Driven Insights**  
   Receive real-time recommendations and predictions based on experimental data to optimize farming practices.
@@ -44,9 +44,9 @@ SproutSpot is an innovative web application that empowers farmers and agricultur
 ## 🌍 Connect With Us
 
 - **Sean Aguilar** [[Email](mailto:seanaguilar698@gmail.com)] [[LinkedIn](https://www.linkedin.com/in/seanaguilar04)]
-- **Lysander Uy** [[Email](mailto:beabelle.canos@gmail.com)] [[LinkedIn]([https://www.linkedin.com/in/beabellecanos)]
-- **Bea Caños** [[Email](mailto:mayochia5@gmail.com)] [[LinkedIn](https://www.linkedin.com/in/may-ochia-086267270)]
-- **May Ochia** [[Email](mailto:lysander.uy@gmail.com)] [[LinkedIn](https://www.linkedin.com/in/lysander-uy-805557223)]
+- **Lysander Uy** [[Email](mailto:lysander.uy@gmail.com)] [[LinkedIn](https://www.linkedin.com/in/lysander-uy-805557223)]
+- **Bea Caños** [[Email](mailto:beabelle.canos@gmail.com)]  [[LinkedIn](https://www.linkedin.com/in/beabellecanos)]
+- **May Ochia** [[Email](mailto:mayochia5@gmail.com)] [[LinkedIn](https://www.linkedin.com/in/may-ochia-086267270)]
 - **Christian Aleria** [[Email](mailto:christianrayaleria@gmail.com)] [[LinkedIn](https://www.linkedin.com/in/christian-aleria-350a90353)]
 
 ---
