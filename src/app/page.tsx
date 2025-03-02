@@ -6,6 +6,7 @@ import Footer from "./_components/footer";
 import { auth } from "~/server/auth";
 import Link from "next/link";
 import NavBar from "./_components/nav-bar";
+import { Pointer } from "~/components/magicui/pointer";
 
 export default async function Home() {
   const session = await auth();
@@ -23,6 +24,14 @@ export default async function Home() {
             SproutSpot empowers farmers with AI-driven predictions and digital
             twin simulations to optimize crop yield and sustainability.
           </p>
+
+          {/* Embedded Video */}
+          <div className="relative mx-auto max-w-2xl">
+            <video className="w-full rounded-lg shadow-xl" controls>
+              <source src="/SproutSpot.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </div>
         </div>
 
         {/* KEY FEATURES SECTION*/}
@@ -45,7 +54,7 @@ export default async function Home() {
             practices with AI.
           </p>
           <Link href={session ? "/farm" : `/api/auth/signin?callbackUrl=/farm`}>
-            <Button className="bg-green-600 text-white hover:bg-green-700">
+            <Button className="pointer-events-auto cursor-none bg-green-600 text-white hover:bg-green-700">
               {session ? "Continue Journey" : "Sign in"}
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
@@ -54,6 +63,7 @@ export default async function Home() {
       </main>
 
       <Footer />
+      <Pointer className="!z-50 fill-[#15803d]" />
     </div>
   );
 }

@@ -36,7 +36,7 @@ export default function NavBar({ session }: NavBarProps) {
         <div className="sm:hidden">
           <button
             onClick={toggleMenu}
-            className="text-green-800 focus:outline-none"
+            className="pointer-events-auto cursor-none text-green-800 focus:outline-none"
           >
             {isMenuOpen ? (
               <X className="h-6 w-6" />
@@ -48,14 +48,14 @@ export default function NavBar({ session }: NavBarProps) {
 
         {/* Navigation Links (Hidden on Mobile, Visible on Desktop) */}
         <div
-          className={`fixed inset-0 z-50 flex flex-col items-center justify-center bg-green-50 transition-transform duration-300 sm:static sm:flex sm:translate-x-0 sm:flex-row sm:space-x-4 sm:bg-transparent sm:transition-none ${
+          className={`pointer-events-auto fixed inset-0 z-50 flex cursor-none flex-col items-center justify-center bg-green-50 transition-transform duration-300 sm:static sm:flex sm:translate-x-0 sm:flex-row sm:space-x-4 sm:bg-transparent sm:transition-none ${
             isMenuOpen ? "translate-x-0" : "-translate-x-full"
           } sm:translate-x-0`}
         >
           {/* Close Button (Visible on Mobile) */}
           <button
             onClick={toggleMenu}
-            className="absolute right-4 top-4 text-green-800 focus:outline-none sm:hidden"
+            className="pointer-events-auto absolute right-4 top-4 cursor-none text-green-800 focus:outline-none sm:hidden"
           >
             <X className="h-6 w-6" />
           </button>
@@ -65,7 +65,7 @@ export default function NavBar({ session }: NavBarProps) {
             <a href="#features">
               <Button
                 variant="ghost"
-                className="text-green-700 hover:bg-green-100 hover:text-green-800"
+                className="pointer-events-auto cursor-none text-green-700 hover:bg-green-100 hover:text-green-800"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Features
@@ -74,7 +74,7 @@ export default function NavBar({ session }: NavBarProps) {
             <a href="#about">
               <Button
                 variant="ghost"
-                className="text-green-700 hover:bg-green-100 hover:text-green-800"
+                className="pointer-events-auto cursor-none text-green-700 hover:bg-green-100 hover:text-green-800"
                 onClick={() => setIsMenuOpen(false)}
               >
                 About
@@ -89,7 +89,7 @@ export default function NavBar({ session }: NavBarProps) {
             >
               <Button
                 variant="outline"
-                className="border-green-600 text-green-600 hover:bg-green-600 hover:text-white"
+                className="pointer-events-auto cursor-none border-green-600 text-green-600 hover:bg-green-600 hover:text-white"
                 onClick={() => setIsMenuOpen(false)}
               >
                 {session ? "Sign out" : "Sign in"}

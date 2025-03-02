@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { Pointer } from "~/components/magicui/pointer";
 
 export default function FAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
@@ -28,38 +29,41 @@ export default function FAQ() {
   ];
 
   return (
-    <div className="mx-auto max-w-3xl p-4">
-      <h2 className="mb-6 text-center text-2xl font-bold text-green-800 sm:text-3xl">
-        Frequently Asked Questions
-      </h2>
-      <div className="space-y-4">
-        {faqs.map((faq, index) => (
-          <div
-            key={index}
-            className="rounded-lg border border-green-300 p-4 shadow-md"
-          >
-            <button
-              className="flex w-full items-center justify-between text-left text-lg font-semibold text-green-700 focus:outline-none"
-              onClick={() => toggleFAQ(index)}
-              aria-expanded={openIndex === index}
-            >
-              {faq.question}
-              <span className="text-green-600 transition-transform duration-300">
-                {openIndex === index ? "▲" : "▼"}
-              </span>
-            </button>
+    <>
+      <Pointer className="fill-[#15803d]" />
+      <div className="mx-auto max-w-3xl p-4">
+        <h2 className="mb-6 text-center text-2xl font-bold text-green-800 sm:text-3xl">
+          Frequently Asked Questions
+        </h2>
+        <div className="space-y-4">
+          {faqs.map((faq, index) => (
             <div
-              className={`overflow-hidden transition-all duration-300 ${
-                openIndex === index
-                  ? "max-h-40 opacity-100"
-                  : "max-h-0 opacity-0"
-              }`}
+              key={index}
+              className="rounded-lg border border-green-300 p-4 shadow-md"
             >
-              <p className="mt-2 text-green-600">{faq.answer}</p>
+              <button
+                className="pointer-events-auto flex w-full cursor-none items-center justify-between text-left text-lg font-semibold text-green-700 focus:outline-none"
+                onClick={() => toggleFAQ(index)}
+                aria-expanded={openIndex === index}
+              >
+                {faq.question}
+                <span className="text-green-600 transition-transform duration-300">
+                  {openIndex === index ? "▲" : "▼"}
+                </span>
+              </button>
+              <div
+                className={`overflow-hidden transition-all duration-300 ${
+                  openIndex === index
+                    ? "max-h-40 opacity-100"
+                    : "max-h-0 opacity-0"
+                }`}
+              >
+                <p className="mt-2 text-green-600">{faq.answer}</p>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
