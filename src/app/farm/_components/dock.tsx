@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Droplets, Sprout, Shield, Cloud, FlaskConical } from "lucide-react";
+import { Droplets, Sprout, Shield, Cloud } from "lucide-react";
 import { Dock, DockIcon } from "~/components/magicui/dock";
 
 const icons = [
