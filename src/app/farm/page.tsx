@@ -73,7 +73,11 @@ export default async function Farm() {
   return (
     <>
       <div className="min-w-screen pointer-events-none flex min-h-screen flex-col items-center justify-center bg-[#f0fdf4]">
-        <NavBar farms={farms} session={session} />
+        <NavBar
+          farms={farms}
+          session={session}
+          selectedFarmId={selectedFarmId ?? ""}
+        />
 
         {/* Playground Section */}
         <div className="flex w-full flex-col items-center px-4 py-8">
@@ -87,7 +91,6 @@ export default async function Farm() {
               optimize your farming strategy.
             </p>
           </div>
-
           <div className="flex w-full flex-col items-center gap-8 sm:flex-row sm:justify-center sm:gap-[100px]">
             <div className="flex flex-row items-center gap-4">
               <PlaygroundCard

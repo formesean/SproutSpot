@@ -1,6 +1,6 @@
 "use client";
 
-import { useSearchParams, useRouter, usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Button } from "~/components/ui/button";
 import {
   DropdownMenu,
@@ -9,7 +9,6 @@ import {
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 import Link from "next/link";
-import CsvUploader from "./csv-uploader";
 import type { Session } from "next-auth";
 import { useState } from "react";
 import { Trash } from "lucide-react";
@@ -23,6 +22,8 @@ import {
   DialogTrigger,
 } from "~/components/ui/dialog";
 import { api } from "~/trpc/react";
+import CsvUploader from "./csv-uploader";
+import Loader from "./loader";
 
 type Farm = {
   id: string;
@@ -32,15 +33,16 @@ type Farm = {
 export default function NavBar({
   farms,
   session,
+  selectedFarmId,
 }: {
   farms: Farm[];
   session: Session | null;
+  selectedFarmId: string;
 }) {
-  const searchParams = useSearchParams();
   const router = useRouter();
-  const pathname = usePathname();
   const [hoveredFarm, setHoveredFarm] = useState<string | null>(null);
   const [farmToDelete, setFarmToDelete] = useState<Farm | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const deleteFarmMutation = api.playground.deleteFarm.useMutation({
     onSuccess: () => {
@@ -48,28 +50,18 @@ export default function NavBar({
     },
   });
 
-  const selectedFarmId = searchParams.get("farmId") ?? farms[0]?.id;
-
   const handleFarmSelect = (farmId: string) => {
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("farmId", farmId);
+    if (farmId === selectedFarmId) return;
 
-    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
-  };
-
-  const confirmDeleteFarm = (farm: Farm) => {
-    setFarmToDelete(farm);
-  };
-
-  const handleDeleteFarm = () => {
-    if (farmToDelete) {
-      deleteFarmMutation.mutate({ farmId: farmToDelete.id });
-      setFarmToDelete(null);
-    }
+    setIsLoading(true);
+    router.replace(`/farm?farmId=${farmId}`, { scroll: false });
+    setTimeout(() => setIsLoading(false), 3000);
   };
 
   return (
     <>
+      {isLoading && <Loader />}
+
       <div className="absolute right-4 top-4 flex gap-2 sm:right-9 sm:top-9">
         {/* Farm Selection */}
         <DropdownMenu>
@@ -100,13 +92,13 @@ export default function NavBar({
                           className="pointer-events-auto ml-2 cursor-none text-red-500 hover:text-red-700"
                           onClick={(e) => {
                             e.stopPropagation();
-                            confirmDeleteFarm(farm);
+                            setFarmToDelete(farm);
                           }}
                         >
                           <Trash size={16} />
                         </button>
                       </DialogTrigger>
-                      <DialogContent>
+                      <DialogContent className="pointer-events-auto z-40 cursor-none">
                         <DialogHeader>
                           <DialogTitle>Confirm Deletion</DialogTitle>
                           <DialogDescription>
@@ -118,12 +110,16 @@ export default function NavBar({
                           <Button
                             variant="outline"
                             onClick={() => setFarmToDelete(null)}
+                            className="pointer-events-auto cursor-none"
                           >
                             Cancel
                           </Button>
                           <Button
                             variant="destructive"
-                            onClick={handleDeleteFarm}
+                            onClick={() =>
+                              deleteFarmMutation.mutate({ farmId: farm.id })
+                            }
+                            className="pointer-events-auto cursor-none"
                           >
                             Delete
                           </Button>
