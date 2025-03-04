@@ -14,6 +14,12 @@ import {
 } from "~/components/ui/dialog";
 import { Button } from "~/components/ui/button";
 import { useRouter } from "next/navigation";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "~/components/ui/tooltip";
 
 interface DockbarProps {
   farmId: string;
@@ -31,6 +37,29 @@ export function Dockbar({ farmId }: DockbarProps) {
   const [selectedTool, setSelectedTool] = useState<string | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const resetMutation = api.playground.resetExperimentalGrid.useMutation();
+  const [suggestions, setSuggestions] = useState({
+    suggestedWater: 0,
+    suggestedFertilizer: 0,
+    suggestedPesticide: 0,
+  });
+
+  useEffect(() => {
+    sessionStorage.removeItem("suggestions");
+  }, []);
+
+  useEffect(() => {
+    const loadSuggestions = () => {
+      const storedSuggestions = sessionStorage.getItem("suggestions");
+      if (storedSuggestions) {
+        setSuggestions(JSON.parse(storedSuggestions));
+      }
+    };
+
+    loadSuggestions();
+    window.addEventListener("storage", loadSuggestions);
+
+    return () => window.removeEventListener("storage", loadSuggestions);
+  }, []);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -72,29 +101,53 @@ export function Dockbar({ farmId }: DockbarProps) {
       className="dock-container pointer-events-auto fixed bottom-0 left-1/2 mb-7 -translate-x-1/2 transform cursor-none px-7 py-10 shadow-2xl max-sm:px-3 max-sm:py-9"
       direction="middle"
     >
-      {icons.map(({ id, Icon, label }) => (
-        <motion.div
-          key={id}
-          className="pointer-events-auto cursor-none"
-          whileTap={{ scale: 1.2 }}
-          animate={{ scale: selectedTool === id ? 1.3 : 1 }}
-          transition={{ type: "spring", stiffness: 200, damping: 10 }}
-          onClick={() => handleToolSelect(id)}
-        >
-          <DockIcon className="pointer-events-auto relative cursor-none">
-            <Icon
-              className={`size-full text-[#15803d] transition-all max-sm:siDockIcon${
-                selectedTool === id ? "text-[#0f4a1e]" : ""
-              }`}
-            />
-            {selectedTool === id && (
-              <span className="absolute -top-7 left-1/2 -translate-x-1/2 rounded-md bg-green-800 px-2 py-1 text-xs text-white">
-                {label}
-              </span>
-            )}
-          </DockIcon>
-        </motion.div>
-      ))}
+      <TooltipProvider>
+        {icons.map(({ id, Icon, label }) => {
+          const toolContent = (
+            <motion.div
+              key={id}
+              className="pointer-events-auto cursor-none"
+              whileTap={{ scale: 1.2 }}
+              animate={{ scale: selectedTool === id ? 1.3 : 1 }}
+              transition={{ type: "spring", stiffness: 200, damping: 10 }}
+              onClick={() => handleToolSelect(id)}
+            >
+              <DockIcon className="pointer-events-auto relative cursor-none">
+                <Icon
+                  className={`size-full text-[#15803d] transition-all max-sm:siDockIcon${
+                    selectedTool === id ? "text-[#0f4a1e]" : ""
+                  }`}
+                />
+                {selectedTool === id && (
+                  <span className="absolute -top-7 left-1/2 -translate-x-1/2 rounded-md bg-green-800 px-2 py-1 text-xs text-white">
+                    {label}
+                  </span>
+                )}
+              </DockIcon>
+            </motion.div>
+          );
+
+          return id === "weather" ? (
+            toolContent
+          ) : (
+            <Tooltip key={id} delayDuration={200}>
+              <TooltipTrigger asChild>{toolContent}</TooltipTrigger>
+              <TooltipContent className="z-0 rounded-md bg-white px-5 py-3 shadow-md">
+                <p className="text-sm text-[#15803d]">Suggested {label}:</p>
+                <span className="font-semibold text-[#166534]">
+                  {id === "water"
+                    ? `${suggestions.suggestedWater} L`
+                    : id === "fertilizer"
+                      ? `${suggestions.suggestedFertilizer} g`
+                      : id === "pesticide"
+                        ? `${suggestions.suggestedPesticide} ml`
+                        : "N/A"}
+                </span>
+              </TooltipContent>
+            </Tooltip>
+          );
+        })}
+      </TooltipProvider>
 
       {/* Reset Icon (Not a selectable tool) */}
       <motion.div

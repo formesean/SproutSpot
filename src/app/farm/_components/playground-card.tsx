@@ -132,6 +132,20 @@ const GridCell = ({ grid, isExperimental, getEmojiSize }: GridCellProps) => {
       const predictionMatch = /Predictions:\n(.+)/.exec(result);
       const message = predictionMatch?.[1]?.trim() ?? "Prediction not found.";
 
+      const waterMatch = result.match(/Water to apply:\s*(\d+\.?\d*)/);
+      const fertilizerMatch = result.match(
+        /Fertilizer to apply:\s*(\d+\.?\d*)/,
+      );
+      const pesticideMatch = result.match(/Pesticide to apply:\s*(\d+\.?\d*)/);
+
+      const suggestedWater = waterMatch?.[1] ? parseFloat(waterMatch[1]) : 0;
+      const suggestedFertilizer = fertilizerMatch?.[1]
+        ? parseFloat(fertilizerMatch[1])
+        : 0;
+      const suggestedPesticide = pesticideMatch?.[1]
+        ? parseFloat(pesticideMatch[1])
+        : 0;
+
       // Determine new crop state
       const newWaterLevel =
         selectedTool === "water"
@@ -141,6 +155,18 @@ const GridCell = ({ grid, isExperimental, getEmojiSize }: GridCellProps) => {
         selectedTool === "water"
           ? Math.min(10, Math.floor(amount / 10))
           : grid.moistureLevel;
+
+      if (typeof window !== "undefined") {
+        sessionStorage.setItem(
+          "suggestions",
+          JSON.stringify({
+            suggestedWater,
+            suggestedFertilizer,
+            suggestedPesticide,
+          }),
+        );
+        window.dispatchEvent(new Event("storage")); // Notify other components
+      }
 
       await updateCell({
         cellId: grid.id,
