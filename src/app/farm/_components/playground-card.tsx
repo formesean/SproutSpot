@@ -154,7 +154,7 @@ const GridCell = ({ grid, isExperimental, getEmojiSize }: GridCellProps) => {
       toast("Prediction", {
         description: message,
         classNames: {
-          toast: "!border-[#15803d] !py-0 !-z-50",
+          toast: "!border-[#15803d] !py-0  !bg-white",
           title: "!text-lg !text-[#166534] !font-semibold !pt-2",
           description: "!text-[#15803d] !text-justify !pb-3",
         },
