@@ -42,7 +42,7 @@ export function Dockbar({ farmId }: DockbarProps) {
   const router = useRouter();
   const [selectedTool, setSelectedTool] = useState<string | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [suggestions, setSuggestions] = useState<any>({
+  const [suggestions, setSuggestions] = useState<Suggestions>({
     suggestedWater: 0,
     suggestedFertilizer: 0,
     suggestedPesticide: 0,
@@ -59,7 +59,9 @@ export function Dockbar({ farmId }: DockbarProps) {
       const storedSuggestions = sessionStorage.getItem("suggestions");
       if (storedSuggestions) {
         try {
-          const parsedSuggestions: any = JSON.parse(storedSuggestions);
+          const parsedSuggestions: Suggestions = JSON.parse(
+            storedSuggestions,
+          ) as Suggestions;
           setSuggestions(parsedSuggestions);
         } catch (error) {
           console.error("Failed to parse suggestions:", error);
