@@ -28,7 +28,7 @@ export default async function Home() {
           {/* Embedded Video */}
           <div className="relative mx-auto max-w-2xl">
             <video className="w-full rounded-lg shadow-xl" controls>
-              <source src="/SproutSpot.mp4" type="video/mp4" />
+              <source src="/SproutSpot-Full.mp4" type="video/mp4" />
               Your browser does not support the video tag.
             </video>
           </div>
