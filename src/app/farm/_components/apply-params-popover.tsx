@@ -47,9 +47,11 @@ export function ApplyParamsPopover({
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>{trigger}</PopoverTrigger>
-      <PopoverContent className="z-0 rounded-md bg-white p-4 shadow-md">
+      <PopoverContent
+        className={`z-0 rounded-md bg-white p-4 shadow-md ${selectedTool ? "block" : "hidden"}`}
+      >
         <h3 className="mb-2 text-sm font-semibold text-green-800">
-          Apply {selectedTool} to {cropType}
+          Apply {selectedTool ?? "param"} to {cropType}
         </h3>
 
         {selectedTool === "weather" ? (

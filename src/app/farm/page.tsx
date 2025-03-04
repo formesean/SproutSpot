@@ -8,6 +8,7 @@ import type { GridItem } from "~/types/grid-item.types";
 import type { ActualGrid, ExperimentalGrid } from "@prisma/client";
 import { Dockbar } from "./_components/dock";
 import { Pointer } from "~/components/magicui/pointer";
+import { redirect } from "next/navigation";
 
 type GridData = ActualGrid | ExperimentalGrid;
 
@@ -15,7 +16,7 @@ export default async function Farm() {
   const session = await auth();
 
   if (!session) {
-    throw new Error("Unauthorized: User must be logged in.");
+    redirect("/");
   }
 
   const searchParams = new URLSearchParams(
@@ -105,7 +106,7 @@ export default async function Farm() {
                 gridData={experimentalGridData ?? []}
               />
               <PixelThermometer gridData={experimentalGridData ?? []} />
-              <Dockbar />
+              <Dockbar farmId={selectedFarmId ?? ""} />
             </div>
           </div>
         </div>

@@ -21,7 +21,11 @@ export default function RootLayout({
       <body>
         <TRPCReactProvider>
           {children}
-          <Toaster position="top-left" expand={true} />
+          <Toaster
+            position="top-left"
+            expand={true}
+            className="!z-40 !border-[#15803d] !bg-white !py-0"
+          />
           <Analytics />
         </TRPCReactProvider>
       </body>

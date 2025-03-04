@@ -132,6 +132,22 @@ const GridCell = ({ grid, isExperimental, getEmojiSize }: GridCellProps) => {
       const predictionMatch = /Predictions:\n(.+)/.exec(result);
       const message = predictionMatch?.[1]?.trim() ?? "Prediction not found.";
 
+      const waterRegex = /Water to apply:\s*(\d+\.?\d*)/;
+      const fertilizerRegex = /Fertilizer to apply:\s*(\d+\.?\d*)/;
+      const pesticideRegex = /Pesticide to apply:\s*(\d+\.?\d*)/;
+
+      const waterMatch = waterRegex.exec(result);
+      const fertilizerMatch = fertilizerRegex.exec(result);
+      const pesticideMatch = pesticideRegex.exec(result);
+
+      const suggestedWater = waterMatch?.[1] ? parseFloat(waterMatch[1]) : 0;
+      const suggestedFertilizer = fertilizerMatch?.[1]
+        ? parseFloat(fertilizerMatch[1])
+        : 0;
+      const suggestedPesticide = pesticideMatch?.[1]
+        ? parseFloat(pesticideMatch[1])
+        : 0;
+
       // Determine new crop state
       const newWaterLevel =
         selectedTool === "water"
@@ -141,6 +157,18 @@ const GridCell = ({ grid, isExperimental, getEmojiSize }: GridCellProps) => {
         selectedTool === "water"
           ? Math.min(10, Math.floor(amount / 10))
           : grid.moistureLevel;
+
+      if (typeof window !== "undefined") {
+        sessionStorage.setItem(
+          "suggestions",
+          JSON.stringify({
+            suggestedWater,
+            suggestedFertilizer,
+            suggestedPesticide,
+          }),
+        );
+        window.dispatchEvent(new Event("storage")); // Notify other components
+      }
 
       await updateCell({
         cellId: grid.id,
@@ -154,7 +182,7 @@ const GridCell = ({ grid, isExperimental, getEmojiSize }: GridCellProps) => {
       toast("Prediction", {
         description: message,
         classNames: {
-          toast: "!border-[#15803d] !py-0 !-z-50",
+          toast: "!border-[#15803d] !py-0  !bg-white",
           title: "!text-lg !text-[#166534] !font-semibold !pt-2",
           description: "!text-[#15803d] !text-justify !pb-3",
         },
