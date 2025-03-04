@@ -53,7 +53,10 @@ export default async function Home() {
             Join SproutSpot today and start optimizing your agricultural
             practices with AI.
           </p>
-          <Link href={session ? "/farm" : `/api/auth/signin?callbackUrl=/farm`}>
+          <Link
+            href={session ? "/farm" : `/api/auth/signin?callbackUrl=/farm`}
+            prefetch={true}
+          >
             <Button className="pointer-events-auto cursor-none bg-green-600 text-white hover:bg-green-700">
               {session ? "Continue Journey" : "Sign in"}
               <ArrowRight className="ml-2 h-4 w-4" />
