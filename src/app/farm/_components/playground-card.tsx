@@ -132,11 +132,13 @@ const GridCell = ({ grid, isExperimental, getEmojiSize }: GridCellProps) => {
       const predictionMatch = /Predictions:\n(.+)/.exec(result);
       const message = predictionMatch?.[1]?.trim() ?? "Prediction not found.";
 
-      const waterMatch = result.match(/Water to apply:\s*(\d+\.?\d*)/);
-      const fertilizerMatch = result.match(
-        /Fertilizer to apply:\s*(\d+\.?\d*)/,
-      );
-      const pesticideMatch = result.match(/Pesticide to apply:\s*(\d+\.?\d*)/);
+      const waterRegex = /Water to apply:\s*(\d+\.?\d*)/;
+      const fertilizerRegex = /Fertilizer to apply:\s*(\d+\.?\d*)/;
+      const pesticideRegex = /Pesticide to apply:\s*(\d+\.?\d*)/;
+
+      const waterMatch = waterRegex.exec(result);
+      const fertilizerMatch = fertilizerRegex.exec(result);
+      const pesticideMatch = pesticideRegex.exec(result);
 
       const suggestedWater = waterMatch?.[1] ? parseFloat(waterMatch[1]) : 0;
       const suggestedFertilizer = fertilizerMatch?.[1]

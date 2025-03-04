@@ -25,6 +25,12 @@ interface DockbarProps {
   farmId: string;
 }
 
+interface Suggestions {
+  suggestedWater: number;
+  suggestedFertilizer: number;
+  suggestedPesticide: number;
+}
+
 const icons = [
   { id: "water", Icon: Droplets, label: "Water" },
   { id: "fertilizer", Icon: Sprout, label: "Fertilizer" },
@@ -36,12 +42,13 @@ export function Dockbar({ farmId }: DockbarProps) {
   const router = useRouter();
   const [selectedTool, setSelectedTool] = useState<string | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const resetMutation = api.playground.resetExperimentalGrid.useMutation();
-  const [suggestions, setSuggestions] = useState({
+  const [suggestions, setSuggestions] = useState<any>({
     suggestedWater: 0,
     suggestedFertilizer: 0,
     suggestedPesticide: 0,
   });
+
+  const resetMutation = api.playground.resetExperimentalGrid.useMutation();
 
   useEffect(() => {
     sessionStorage.removeItem("suggestions");
@@ -51,7 +58,12 @@ export function Dockbar({ farmId }: DockbarProps) {
     const loadSuggestions = () => {
       const storedSuggestions = sessionStorage.getItem("suggestions");
       if (storedSuggestions) {
-        setSuggestions(JSON.parse(storedSuggestions));
+        try {
+          const parsedSuggestions: any = JSON.parse(storedSuggestions);
+          setSuggestions(parsedSuggestions);
+        } catch (error) {
+          console.error("Failed to parse suggestions:", error);
+        }
       }
     };
 
